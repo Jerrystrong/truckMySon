@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <%- include("header") -%>
+    <body>
+        <section class="bg-slate-700/30 absolute top-0 bottom-0 left-0 right-0 hidden items-center justify-center z-50" id="successCont">
+            <div class="bg-slate-50 p-5 w-[200px] h-[200px] rounded-md flex flex-col items-center relative">
+                <span class="text-green-700 text-[32px]">
+                    <i class="fa-solid fa-circle-check"></i>
+                </span>
+                <p class="text-slate-700"> Données modifiés</p>
+                <button class="bg-red-400 text-red-50 p-1 rounded-md bottom-5 w-[90%] absolute hover:bg-red-700 cursor-pointer" onclick="closeSuccess()">Fermer</button>
+            </div>
+        </section>
+        <section class="flex flex-col justify-center items-center w-screen h-screen gap-10">
+            <h1 class="text-2xl font-dosis">Paramettre</h1>
+            <div class="border border-slate-700 rounded-md flex gap-5 p-2 items-center relative" style="box-shadow: 1px 10px 1px #334155;">
+                <div class="absolute -top-5 -right-5 bg-amber-300 text-amber-50 px-3 py-1 rounded-full text-[14px] flex">Admin</div>
+                <div>
+                    <img src="/coupeProfJey.png" alt="" class="w-[50px] h-[50px] rounded-full">
+                </div>
+                <div>
+                    <h1>Jeremie KIMPIOKA TANDU</h1>
+                    <p class="text-slate-700/70 text-[14px]">jeremiekimpioka52@gmail.com</p>
+                </div>
+            </div>
+            <form method="post" class="grid gap-3" id="formModife">
+                <h1>Modifier les informations de l'école</h1>
+                <div class="border border-slate-700 h-[50px] w-[300px] rounded-md py-1 px-3 flex flex-col">
+                    <small>Nom de l'école</small>
+                    <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                    <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" >
+                </div>
+
+                <div class="border border-slate-700 h-fit w-[300px] rounded-md py-1 px-3 flex flex-col">
+                    <small>Localisation de l'école</small>
+                    <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                    <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrez la localisation" name="schoolLocation" id="schoolLocation" >
+                    <p id="successCoordonate" class="text-green-500 text-[12px]"></p>
+                    <p class="text-slate-700 text-[14px] font-semibold mt-2 cursor-pointer" id="verifyCoordonnees"><i class="fa-solid fa-rotate"></i> Verifié les coordonnées</p>
+                </div>
+                <button class="text-slate-50 bg-slate-700 py-2 rounded-md" type="submit">Modifier</button>
+            </form>
+        </section>
+
+    <script>
+        const mapBoxAccessToken='pk.eyJ1IjoiamVyZW1pZWsiLCJhIjoiY21hMTU3MDByMTZjaDJqcXl1ZnZmMWFzeCJ9.JKUh7DYNz4OKjbcIu7AjTw'
+        async function geocodeAddress(address) {
+            const cleanAddress = `${address}, Kinshasa, RDC`;
+            try {
+                const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(cleanAddress)}.json?access_token=${mapBoxAccessToken}&limit=1`;
+
+                const response = await fetch(url);
+                if (!response.ok) {
+                throw new Error(`Erreur réseau : ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                return data.features[0].geometry.coordinates; // [longitude, latitude]
+                } else {
+                throw new Error('Adresse non trouvée');
+                }
+            } catch (error) {
+                console.error('Erreur géocodage :', error);
+                throw error;
+            }
+        }
+        let schoolCoordonate=[]
+        let schoolLocationString=''
+        const verifyCoordonnees=document.querySelector('#verifyCoordonnees')
+        verifyCoordonnees.addEventListener('click',async(e)=>{
+            const schoolLocation=document.querySelector('#schoolLocation')
+            const successCoordonate=document.querySelector('#successCoordonate')
+            e.currentTarget.classList.add('animation-pulse')
+            // rotate.classList.add('animation-')
+            const coordonates=await geocodeAddress(schoolLocation.value)
+            // console.log(coordonates)
+            const isDrc=coordonates[1] >= -13 && coordonates[1] <= 6 && coordonates[0] >= 12 && coordonates[0] <= 32;
+            if(isDrc){
+                successCoordonate.textContent=`La position correspond à un point en rdc`
+                verifyCoordonnees.classList.add('text-slate-700/50')
+                verifyCoordonnees.classList.remove('font-semibold')
+                verifyCoordonnees.classList.remove('animation-pulse')
+                verifyCoordonnees.classList.remove('text-slate-700')
+                schoolCoordonate=coordonates
+                schoolLocationString=schoolLocation.value
+            }
+        })
+        const formModife=document.querySelector('#formModife')
+        formModife.addEventListener('submit',async function(e){
+            e.preventDefault()
+            const formD= new FormData(this)
+            let objForm= Object.fromEntries(formD)
+            objForm.schoolLocation=schoolCoordonate
+            objForm.schoolLocationString=schoolLocationString
+            console.log(objForm)
+            const fetchD=await fetch('/add/school/data',{
+                method:'Post',
+                body:JSON.stringify(objForm),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            const data=await fetchD.json()
+            if(data.success){
+                successCont.classList.remove('hidden')
+                successCont.classList.add('flex')
+            }else{
+                console.log(data.message)
+            }
+        })
+        const closeSuccess=()=>{
+            const successCont=document.querySelector('#successCont')
+            successCont.classList.add('hidden')
+            successCont.classList.remove('flex')
+        }
+    </script>
+    </body>
+</html>

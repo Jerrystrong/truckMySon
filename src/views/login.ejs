@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <%- include('header') -%>
+    <body>
+        <main class="flex items-center justify-center flex-col h-screen w-screen">
+            <h1 class="text-[32px] font-dosis text-slate-700 font-semibold">Connexion</h1>
+            <form action="/login" method="post" class="grid gap-3">
+                <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col" id="emailContainer">
+                    <small>Email</small>
+                    <input type="email" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrez votre email" name="userEmail" id="userEmail" onkeyup="focusBorder()">
+                </div>
+                <button type="submit" class="bg-slate-700/50 text-slate-50 py-2 rounded-lg cursor-pointer transition duration-300" id="submitButton" disabled>Envoyer</button>
+            </form>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <%- include('header') -%>
+  <body>
+    <main class="flex items-center justify-center flex-col h-screen w-screen">
+      <form action="/teacher-password/complet-login" method="POST" class="grid gap-3">
+        <h1 class="text-[24px] text-slate-700">Entrez le code envoyé par Email</h1>
+        <!-- Champ Email -->
+        <div class="border border-slate-700/50 h-[50px] rounded-md py-1 px-3 flex flex-col bg-slate-700/30">
+          <small>Email</small>
+          <input
+            type="email"
+            class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]"
+            placeholder="Entrez votre email"
+            name="userEmail"
+            id="userEmail"
+            value="<%= user?.email || '' %>"
+            readonly
+          />
+        </div>
+
+        <!-- Champ Password -->
+        <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+          <small>Code de confirmation</small>
+          <div class="flex gap-2">
+            <h1 class="font-semibold text-slate-700 bg-slate-800/10 rounded-tl-md rounded-bl-md px-1 text-[12px] flex items-center">GTE-</h1>
+            <input
+            type="text"
+            class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]"
+            placeholder="Entrez le code"
+            name="codeConfirmation"
+            id="userPassword"
+            required
+          />
+          </div>
+        </div>
+        <% if (error) { %>
+            <small class="text-red-500"><%= error %></small>
+        <% } %>
+        <!-- Bouton -->
+        <button
+          type="submit"
+          class="bg-slate-700 text-slate-50 py-2 rounded-lg cursor-pointer transition duration-300"
+          id=""
+        >
+          Connexion
+        </button>
+        <button disabled class="bg-transparent border-0 outline-0 text-[12px] text-slate-700/50" id="btnResend">Envoyez un nouveau code <span id="conteur" class="text-red-500/50">60</span></button>
+     </form>
+    </main>
+    <script>
+        const conteur=document.getElementById('conteur')
+        const btnResend=document.getElementById('btnResend')
+        let count=60
+        const interval=setInterval(()=>{
+            if(count===0){
+                conteur.textContent=` `
+                btnResend.removeAttribute('disabled')
+                btnResend.classList.remove('text-slate-700/50')
+                btnResend.classList.add('text-slate-700')
+                clearInterval(interval)
+            }else{
+                count--
+            }
+            conteur.textContent=`${count}`
+        },1000)
+    </script>
+  </body>
+</html>
