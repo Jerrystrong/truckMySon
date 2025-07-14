@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <%- include('header') -%>
+    <body>
+        <div class="grid grid-cols-[20%_80%] h-screen max-sm:grid-cols-1">
+            <div class="p-5 relative border-r border-r-slate-700/10  bg-slate-500/20 max-sm:hidden">
+                <h1 class="text-xl font-semibold text-slate-900 text-center font-dosis">Gestion Eleve</h1>
+                <div class="flex flex-col gap-5 mt-[32px]">
+                    <a class="bg-slate-700/80 text-slate-50 rounded-full px-4 py-2 flex items-center gap-2 text-[14px]" href="/eleves">
+                        <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#fefefe" stroke="#fefefe" class="w-[20px] h-[20px] max-sm:w-[20px] max-sm:h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus-circle</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#fefefe"> <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                        <span class="max-sm:hidden">Ajouter un élève</span>
+                    </a>
+                    <a href="/" class="text-slate-7000 text-[16px] py-1 rounded-lg flex items-center gap-2 px-4">
+                        <svg width="64px" height="64px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="" class="stroke-slate-700 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill=""></path> </g></svg>
+                        <span class="max-sm:hidden">Dashboard</span>
+                    </a>
+                    <!-- <div class="text-slate-50 bg-slate-700  text-[16px] py-1 rounded-lg flex items-center gap-2 px-4">
+                        <div>
+                            <a href="/eleves" > <i class="fa-light fa-school"></i>Gerer les eleves</a>
+                        </div>
+                    </div> -->
+                    <a href="/eleves" class="text-slate-50 bg-slate-700  text-[16px] py-1 rounded-lg flex items-center gap-2 px-4"> 
+                        <i class="fa-solid fa-users"></i>
+                        Gerer les eleves
+                    </a>
+                    
+                </div>
+            </div>
+            <div class=" px-[32px] py-[32px] flex flex-col gap-[24px] h-screen overflow-y-scroll scrol relative">
+                <!-- poopop modifier -->
+                 <div class="absolute w-full h-full top-0 bottom-0 left-0 right-0 bg-slate-700/40 hidden flex items-center justify-center" id="poupopSignleStudent">
+                    <div class="w-[600px] grid grid-cols-2 max-sm:grid-cols-1 max-sm:w-[300px] bg-slate-50 p-5 rounded-md h-[400px] relative gap-5">
+                        <button class="text-slate-700 hover:text-red-700 text-[32px] absolute -right-1 -top-3 cursor-pointer transition durantion-300" onclick="removeSingleEleve()"><i class="fa-solid fa-circle-xmark transition durantion-300"></i></button>
+                        <div class="flex justify-center flex-col bg-slate-200 items-center">
+                            <p class="text-slate-700 text-[21px]">Information de l'élève</p>
+                            <img src="/kkkt.png" alt="" class="w-[150px] h-[150px] rounded-lg object-cover">
+                            <h1 class="text-slate-700 text-[14px] mt-5" id="studentName"></h1>
+                            <small>Dernier entrée à l'école : <span class="text-green-700">1 jour</span></small>
+                            <div class="w-fit border rouded-full border-slate-700 flex px-2 py-1 rounded-full gap-3">
+                                <div class="text-slate-50 flex flex-col text-[16px] items-center justify-center cursor-pointer bg-slate-700 w-[30px] h-[30px] rounded-full" id="wa-call">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                   </div> 
+                                   <div class="text-slate-50 flex flex-col text-[16px]r cursor-pointer bg-slate-700 w-[30px] h-[30px] rounded-full items-center justify-center">
+                                        <i class="fa-regular fa-note-sticky"></i>
+                                   </div> 
+                                   <div class="text-slate-50 flex flex-col text-[16px] items-center justify-center cursor-pointer bg-slate-700 w-[30px] h-[30px] rounded-full" id="normal-call">
+                                        <i class="fa-solid fa-phone"></i>
+                                   </div>
+                            </div>
+                        </div>
+                        <div class="grid overflow-y-scroll overflow-x-hidden scrol">
+                            <!-- <h1 class="text-xl mb-4">Information sur l'enseignant</h1> -->
+                            <div class="grid gap-2" id="eleveContainer"></div>
+                            <div class="mt-5 flex justify-between">
+                                <button class="bg-blue-400 px-3 py-1 flex items-center justify-center rounded-md cursor-pointer hover:bg-blue-700 transition duration-300 hover:text-blue-50 h-fit">Modifier</button>
+                                <button class="bg-red-100 px-3 py-1 flex items-center justify-center rounded-md cursor-pointer hover:bg-red-700 transition duration-300 hover:text-red-50 h-fit">supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end modifier eleve -->
+
+               
+                <div class="hidden max-sm:flex items-center justify-between">
+                    <h1 class="font-dosis font-semibold text-slate-700 text-[21px]">Gestion eleves</h1>
+                    <div class="flex gap-5">
+                        <div class="text-slate-700 relative">
+                            <small class="absolute -top-3 -right-1">0</small>
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <button class="text-slate-700">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="bg-slate-700/10 p-2 rounded-md w-[300px] text-slate-700 flex items-center justify-between">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" name="recherche" id="recherche" placeholder="Tapez le mot à recherche" class="placeholder:text-slate-700 focus:border-0 focus:outline-0">
+                        <div class="w-[50px] h-[30px] bg-slate-700 flex items-center justify-center rounded-lg">
+                            <p class="text-[11px] text-slate-50"> Cmd+r </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-[30px] h-[30px] bg-slate-700 text-[11px] rounded-full flex text-slate-50 items-center justify-center">
+                            <% 
+                                const nameParts = user.userName ? user.userName.trim().split(' ') : [];
+                                const initials = nameParts.slice(0, 3).map(n => n[0]?.toUpperCase() || '').join('');
+                            %>
+                            <%= initials %>
+                        </div>
+                        <div class="text-slate-700 relative">
+                            <small class="absolute -top-3 -right-1">0</small>
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- list enregistrement eleve -->
+                 <div>
+                    <div class="my-5 flex justify-between">
+                        <h1 class="text-slate-700">Liste des eleve</h1>
+                    </div>
+                    <div class="overflow-auto rounded-lg shadow-md h-[400px] scrol">
+                        <% 
+                            const isStudent=students.length>0?true:false
+                        %>
+                        <% if(isStudent){%>
+                            <table class="min-w-full bg-white border border-gray-200 text-sm text-left text-gray-700">
+                                <thead class="bg-gray-100 text-gray-700 uppercase">
+                                <tr>
+                                    <th class="px-4 py-3 font-dosis">Identifiant</th>
+                                    <th class="px-4 py-3 font-dosis">Nom</th>
+                                    <th class="px-4 py-3 font-dosis">Postnom</th>
+                                    <th class="px-4 py-3 font-dosis">Prenom</th>
+                                    <th class="px-4 py-3 font-dosis">Age</th>
+                                    <th class="px-4 py-3 font-dosis">Classe</th>
+                                    <th class="px-4 py-3 font-dosis">Identifiant classe</th>
+                                    <th class="px-4 py-3 font-dosis">Nom du parent</th>
+                                    <th class="px-4 py-3 font-dosis">E-mail (Tutaire)</th>
+                                    <th class="px-4 py-3 font-dosis">Téléphone (Tutaire)</th>
+                                </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+
+                                    <!-- <tr class="hover:bg-gray-50 cursor-pointer" onclick="openStutentPoopop(
+                                        [
+                                            {'Nom':'KIMPIOKA'},
+                                            {'Post-nom':'TANDU'},
+                                            {'Prenom':'Jeremie'},
+                                            {'Age':'25 ans'},
+                                            {'Nom du parent':'Jeremie Kimpioka'},
+                                            {'E-mail (Tutaire)':'jeremiekimpioka52@gmail.com'},
+                                            {'Téléphone (Tutaire)':'+243982208865'}
+                                        ]
+                                    )">
+                                        <td class="px-4 py-2">GT-162457-2025-eCM</td>
+                                        <td class="px-4 py-2">KIMPIOKA</td>
+                                        <td class="px-4 py-2">TANDU</td>
+                                        <td class="px-4 py-2">Jeremie</td>
+                                        <td class="px-4 py-2">25 ans</td>
+                                        <td class="px-4 py-2">4e Math-physique</td>
+                                        <td class="px-4 py-2">eCM-1213-612-162457</td>
+                                        <td class="px-4 py-2">Jeremie Kimpioka</td>
+                                        <td class="px-4 py-2">jeremiekimpioka52@gmail.com</td>
+                                        <td class="px-4 py-2">+243982208865</td>
+                                    </tr> -->
+                                    <% for (let i = 0; i < students.length; i++) { %>
+                                        <tr class="hover:bg-gray-50 cursor-pointer" onclick='openStutentPoopop([
+                                            {"Identifiant": "<%= students[i].identifiant %>"},
+                                            {"Nom": "<%= students[i].studentName %>"},
+                                            {"Post-nom": "<%= students[i].studentPostname %>"},
+                                            {"Prenom": "<%= students[i].studentLastname %>"},
+                                            {"Age": "<%= students[i].studentBirthDay %> ans"},
+                                            {"Classe": "<%= students[i].studentClasse %>"},
+                                            {"Identifiant classe": "<%= students[i].studentClasseIdentnifiant %>"},
+                                            {"Identifiant classe": "<%= students[i].studentParent %>"},
+                                            {"E-mail": "<%= students[i].studentEmail %>"},
+                                            {"Tel": "<%= students[i].studentPhone %>"}
+                                            ])'>
+                                            <td class="px-4 py-2"><%= students[i].identifiant %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentName %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentPostname %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentLastname %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentBirthDay %> ans</td>
+                                            <td class="px-4 py-2"><%= students[i].studentClasse %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentClasseIdentnifiant %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentParent %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentPhone %></td>
+                                            <td class="px-4 py-2"><%= students[i].studentEmail %></td>
+                                        </tr>
+                                    <% } %>
+                                
+                                </tbody>
+                            </table>
+                        <% }else{ %>
+                            <div class="h-full w-full flex items-center justify-center">Aucun élève enregistrer a votre classe</div>
+                        <% } %>
+                    </div>
+
+                 </div>
+            </div>
+        </div>
+        <!-- <%- include('footer')-%> -->
+    </body>
+</html>

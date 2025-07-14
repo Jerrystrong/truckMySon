@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <%- include('header') -%>
+    <body>
+        <div class="grid grid-cols-[20%_80%] h-screen max-sm:grid-cols-1">
+            <div class="p-5 relative border-r border-r-slate-700/10  bg-slate-500/20 max-sm:hidden">
+                <h1 class="text-xl font-semibold text-slate-900 text-center font-dosis">Gestion Eleve</h1>
+                <div class="flex flex-col gap-5 mt-[32px]">
+                    <a class="bg-slate-700/80 text-slate-50 rounded-full px-4 py-2 flex items-center gap-2 text-[14px]" href="/enseignant">
+                        <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#fefefe" stroke="#fefefe" class="w-[20px] h-[20px] max-sm:w-[20px] max-sm:h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus-circle</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#fefefe"> <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
+                        <span class="max-sm:hidden">Ajouter un enseignant</span>
+                    </a>
+                    <a href="/" class="text-slate-7000 text-[16px] py-1 rounded-lg flex items-center gap-2 px-4">
+                        <svg width="64px" height="64px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="" class="stroke-slate-700 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill=""></path> </g></svg>
+                        <span class="max-sm:hidden">Dashboard</span>
+                    </a>
+                    <a href="/" class="text-slate-700 text-[16px] py-1 rounded-lg flex items-center gap-2 px-4">
+                        <svg height="64px" width="64px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="" stroke="" class="stroke-slate-700 fill-slate-700 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <style type="text/css">  </style> <g> <path class="st0" d="M81.44,116.972c23.206,0,42.007-18.817,42.007-42.008c0-23.215-18.801-42.016-42.007-42.016 c-23.216,0-42.016,18.801-42.016,42.016C39.424,98.155,58.224,116.972,81.44,116.972z"></path> <path class="st0" d="M224.166,245.037c0-0.856-0.142-1.673-0.251-2.498l62.748-45.541c3.942-2.867,4.83-8.411,1.963-12.362 c-1.664-2.285-4.342-3.652-7.17-3.652c-1.877,0-3.667,0.589-5.191,1.689l-62.874,45.636c-2.341-1.068-4.909-1.704-7.65-1.704 h-34.178l-8.294-47.222c-4.555-23.811-14.112-42.51-34.468-42.51h-86.3C22.146,136.873,0,159.019,0,179.383v141.203 c0,10.178,8.246,18.432,18.424,18.432c5.011,0,0,0,12.864,0l7.005,120.424c0,10.83,8.788,19.61,19.618,19.61 c8.12,0,28.398,0,39.228,0c10.83,0,19.61-8.78,19.61-19.61l9.204-238.53h0.463l5.27,23.269c1.744,11.097,11.293,19.28,22.524,19.28 h51.534C215.92,263.461,224.166,255.215,224.166,245.037z M68.026,218.861v-67.123h24.126v67.123l-12.817,15.118L68.026,218.861z"></path> <polygon class="st0" points="190.326,47.47 190.326,200.869 214.452,200.869 214.452,71.595 487.874,71.595 487.874,302.131 214.452,302.131 214.452,273.113 190.326,273.113 190.326,326.256 512,326.256 512,47.47 "></polygon> <path class="st0" d="M311.81,388.597c0-18.801-15.235-34.029-34.028-34.029c-18.801,0-34.036,15.228-34.036,34.029 c0,18.785,15.235,34.028,34.036,34.028C296.574,422.625,311.81,407.381,311.81,388.597z"></path> <path class="st0" d="M277.781,440.853c-24.259,0-44.866,15.919-52.782,38.199h105.565 C322.648,456.771,302.04,440.853,277.781,440.853z"></path> <path class="st0" d="M458.573,388.597c0-18.801-15.235-34.029-34.028-34.029c-18.801,0-34.036,15.228-34.036,34.029 c0,18.785,15.235,34.028,34.036,34.028C443.338,422.625,458.573,407.381,458.573,388.597z"></path> <path class="st0" d="M424.545,440.853c-24.259,0-44.866,15.919-52.783,38.199h105.565 C469.411,456.771,448.804,440.853,424.545,440.853z"></path> </g> </g></svg>
+                        <span class="max-sm:hidden">Classes</span>
+                    </a>
+                    <a href="/enseignant" class="text-slate-50 text-[16px] bg-slate-700 py-1 rounded-lg flex items-center gap-2 px-4">
+                        <svg width="68px" height="68px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="" stroke="" class="stroke-slate-50 fill-slate-50 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0" ></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M427.84 547.52a193.6 193.6 0 1 0-193.6-193.6 193.92 193.92 0 0 0 193.6 193.6z m0-323.52a129.6 129.6 0 1 1-129.6 129.6A129.92 129.92 0 0 1 427.84 224zM822.72 937.28a32 32 0 0 0-45.44 0 32 32 0 0 0-6.72 10.56A32 32 0 0 0 768 960a32 32 0 1 0 64 0 32 32 0 0 0-2.56-12.16 32 32 0 0 0-6.72-10.56zM672 928h-128a32 32 0 0 0 0 64h128a32 32 0 0 0 0-64z" fill=""></path><path d="M776.96 861.76h2.24a32 32 0 0 0 4.8-3.52l3.84-3.2a32 32 0 0 0 3.84-5.76 20.16 20.16 0 0 0 4.16-10.88 32 32 0 0 0 0-5.76 32 32 0 0 0 0-6.4 30.08 30.08 0 0 0 0-4.8 394.56 394.56 0 0 0-367.36-256A400.64 400.64 0 0 0 32 960a32 32 0 0 0 32 32h352a32 32 0 0 0 0-64H98.56a335.04 335.04 0 0 1 329.28-299.84A330.88 330.88 0 0 1 736 843.52v2.56a32 32 0 0 0 15.04 14.4h1.6a28.48 28.48 0 0 0 23.04 0zM565.76 124.8a110.08 110.08 0 1 1 123.84 179.84 32 32 0 1 0 28.8 57.28 174.08 174.08 0 1 0-196.16-284.16 32 32 0 1 0 43.52 47.04zM675.2 389.44a32 32 0 0 0-6.4 64 293.44 293.44 0 0 1 256 256H832a32 32 0 0 0 0 64h128a32 32 0 0 0 32-32 359.36 359.36 0 0 0-316.8-352z" fill=""></path></g></svg>
+                        <span class="max-sm:hidden">Enseignants</span>
+                        
+                    </a>
+                    <a href="/parameter" class="text-slate-700 text-[16px] py-1 rounded-lg flex items-center gap-2 px-4">
+                        <svg width="64px" height="64px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="" class="stroke-slate-700 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1395 12.0002C14.1395 13.1048 13.2664 14.0002 12.1895 14.0002C11.1125 14.0002 10.2395 13.1048 10.2395 12.0002C10.2395 10.8957 11.1125 10.0002 12.1895 10.0002C13.2664 10.0002 14.1395 10.8957 14.1395 12.0002Z" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M7.57381 18.1003L5.12169 12.8133C4.79277 12.2907 4.79277 11.6189 5.12169 11.0963L7.55821 5.89229C7.93118 5.32445 8.55898 4.98876 9.22644 5.00029H12.1895H15.1525C15.8199 4.98876 16.4477 5.32445 16.8207 5.89229L19.2524 11.0923C19.5813 11.6149 19.5813 12.2867 19.2524 12.8093L16.8051 18.1003C16.4324 18.674 15.8002 19.0133 15.1281 19.0003H9.24984C8.5781 19.013 7.94636 18.6737 7.57381 18.1003Z" stroke="" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        <span class="max-sm:hidden">Parametre</span>
+                    </a>
+                    
+                    <a class="text-red-50 bg-red-700/50 absolute  bottom-5 px-5 py-2 w-[85%] items-center rounded-lg flex justify-center cursor-pointer" href="/logout">Deconnection</a>
+
+                </div>
+            </div>
+            <div class=" px-[32px] py-[32px] flex flex-col gap-[24px] h-screen overflow-y-scroll scrol relative">
+                <!-- mobile menu -->
+                <div class="hidden max-sm:flex items-center justify-between">
+                    <h1 class="font-dosis font-semibold text-slate-700 text-[21px]">Gestion eleves</h1>
+                    <div class="flex gap-5">
+                        <div class="text-slate-700 relative">
+                            <small class="absolute -top-3 -right-1">0</small>
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <button class="text-slate-700">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- end mobile menu -->
+                <!-- poopop pour le proffesseur single-->
+                <div class="absolute w-full h-full top-0 bottom-0 left-0 right-0 bg-slate-700/40 hidden flex items-center justify-center" id="poupopSignleUser">
+                    <div class="w-[400px] max-sm:w-[300px] bg-slate-50 p-5 rounded-md h-[400px] overflow-y-scroll overflow-x-hidden scrol relative">
+                        <button class="text-slate-700 hover:text-red-700 text-[32px] absolute -right-1 -top-3 cursor-pointer transition durantion-300" onclick="removeSingleuser()"><i class="fa-solid fa-circle-xmark transition durantion-300"></i></button>
+                        <h1 class="text-xl mb-4">Information sur l'enseignant</h1>
+                        <div class="grid gap-2" id="poopopContainer"></div>
+                        <div class="mt-5 flex justify-between">
+                            <button class="bg-blue-400 px-3 py-1 flex items-center justify-center rounded-md cursor-pointer hover:bg-blue-700 transition duration-300 hover:text-blue-50">Modifier</button>
+                            <button class="bg-red-100 px-3 py-1 flex items-center justify-center rounded-md cursor-pointer hover:bg-red-700 transition duration-300 hover:text-red-50">supprimer</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- end poopop -->
+                <div class="flex justify-between">
+                    <div class="bg-slate-700/10 p-2 rounded-md w-[300px] text-slate-700 flex items-center justify-between">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="search" name="recherche" id="recherche" placeholder="Tapez le mot à recherche" class="placeholder:text-slate-700 focus:border-0 focus:outline-0">
+                        <div class="w-[50px] h-[30px] bg-slate-700 flex items-center justify-center rounded-lg">
+                            <p class="text-[11px] text-slate-50"> Cmd+r </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-[30px] h-[30px] bg-slate-700 text-[11px] rounded-full flex text-slate-50 items-center justify-center">
+                            <% 
+                                const nameParts = user.userName ? user.userName.trim().split(' ') : [];
+                                const initials = nameParts.slice(0, 3).map(n => n[0]?.toUpperCase() || '').join('');
+                            %>
+                            <%= initials %>
+                        </div>
+                        <div class="text-slate-700 relative">
+                            <small class="absolute -top-3 -right-1">0</small>
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- action -->
+                 <div>
+                    <div class="text-green-800 bg-green-700/20 w-fit flex gap-2 items-center p-2 rounded-md cursor-pointer" onclick="addTeacher()">
+                        <span class="w-[30px] h-[30px] flex items-center justify-center bg-green-50 rounded-full"><i class="fa-solid fa-plus"></i></span>
+                        <p class="font-dosis">Ajouter un nouveau enseignant</p>
+                    </div>
+                </div>
+                <!-- poopop add teacher -->
+                 <div class="absolute w-full h-full top-0 bottom-0 left-0 right-0 bg-slate-700/40 hidden flex items-center justify-center" id="addTeacher">
+                    <div class="w-[400px] max-sm:w-[300px] bg-slate-50 p-5 rounded-md h-[400px] overflow-y-scroll overflow-x-hidden scrol relative">
+                        <button class="text-slate-700 hover:text-red-700 text-[32px] absolute -right-1 -top-3 cursor-pointer transition durantion-300" onclick="removeAddTeache()"><i class="fa-solid fa-circle-xmark transition durantion-300"></i></button>
+                        <h1 class="text-xl mb-4">Information sur l'enseignant</h1>
+                        <form class="grid gap-2" id="addIUser" method="post" action="/add/teacher">
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Nom</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez le nom de l'enseignant" name="teacherName">
+                            </div>
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Postnom</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez le postnom de l'enseignant" name="teacherPostname">
+                            </div>
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Prenom</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez le prenom de l'enseignant" name="teacherLastname">
+                            </div>
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Age</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <input type="number" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez l'age de l'enseignant" name="teacherBirthDay">
+                            </div>
+                            <div class="border border-slate-700 h-fit rounded-md py-1 px-3 flex flex-col">
+                                <small>Classe</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <select name="teacherClasse" id="teacherClasse" class="divided-1" onchange="setHiddenId()" >
+                                    
+                                </select>
+                                <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px] hidden my-2 h-[30px] bg-slate-700/30 rounded-md px-4" name="teacherClasseIdentifiant" readonly id="teacherClasseIdentifiant">
+                                
+                            </div>
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Email</small>
+                                <!-- <label class="text-slate-700">+243812528702</label> -->
+                                <input type="email" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez l'email de l'enseignant" name="teacherEmail">
+                            </div>
+                            <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+                                <small>Téléphone</small>
+                                <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
+                                <input type="tel" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700/60 text-[12px]" placeholder="Entrez le portable de l'enseignant" name="teacherPhone">
+                            </div>
+                            <button class="bg-slate-700 text-slate-50 py-2 rounded-md hover:bg-slate-800">Enregistrer</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- dernier engnant enregistre -->
+                 <!-- success added prof -->
+                  <div class="absolute w-full h-full top-0 bottom-0 left-0 right-0 bg-slate-700/40 hidden flex items-center justify-center" id="successTeacher">
+                    <div class="w-[300px] bg-slate-50 p-5 rounded-md h-[400px] overflow-y-scroll overflow-x-hidden scrol relative flex items-center justify-center flex-col" id="successTeacherCont">
+                        <!-- <button class="text-slate-700 hover:text-red-700 text-[32px] absolute -right-1 -top-3 cursor-pointer transition durantion-300" onclick="removeSuccessTeache()"><i class="fa-solid fa-circle-xmark transition durantion-300"></i></button> -->
+                        
+                    </div>
+                </div>
+                  <!-- ======= -->
+                 <div>
+                    <div class="my-5 flex justify-between">
+                        <h1 class="text-slate-700">Liste des enseignants</h1>
+                    </div>
+                    <div class="overflow-auto rounded-lg shadow-md h-[400px] scrol">
+                        <table class="min-w-full bg-white border border-gray-200 text-sm text-left text-gray-700">
+                            <thead class="bg-gray-100 text-gray-700 uppercase">
+                            <tr>
+                                <th class="px-4 py-3 font-dosis">Identifiant</th>
+                                <th class="px-4 py-3 font-dosis">Nom</th>
+                                <th class="px-4 py-3 font-dosis">Postnom</th>
+                                <th class="px-4 py-3 font-dosis">Prenom</th>
+                                <th class="px-4 py-3 font-dosis">Age</th>
+                                <th class="px-4 py-3 font-dosis">Classe</th>
+                                <th class="px-4 py-3 font-dosis">Identifiant classe</th>
+                                <th class="px-4 py-3 font-dosis">E-mail</th>
+                                <th class="px-4 py-3 font-dosis">Téléphone</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                               <% for (let i = 0; i < teachers.length; i++) { %>
+                                    <tr class="hover:bg-gray-50 cursor-pointer" onclick='setPoupop([
+                                        {"Identifiant": "<%= teachers[i].teacherIdentifiant %>"},
+                                        {"Nom": "<%= teachers[i].teacherName %>"},
+                                        {"Post-nom": "<%= teachers[i].teacherPostname %>"},
+                                        {"Prenom": "<%= teachers[i].teacherLastname %>"},
+                                        {"Age": "<%= teachers[i].teacherBirthDay %> ans"},
+                                        {"Classe": "<%= teachers[i].teacherClasse %>"},
+                                        {"Identifiant classe": "<%= teachers[i].teacherClasseIdentifiant %>"},
+                                        {"E-mail": "<%= teachers[i].teacherEmail %>"},
+                                        {"Tel": "<%= teachers[i].teacherPhone %>"}
+                                        ])'>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherIdentifiant %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherName %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherPostname %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherLastname %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherBirthDay %> ans</td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherClasse %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherClasseIdentifiant %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherPhone %></td>
+                                        <td class="px-4 py-2"><%= teachers[i].teacherEmail %></td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                 </div>
+            </div>
+        </div>
+        <!-- <%- include('footer')-%> -->
+        <script>
+            const getClasses=async()=>{
+                const teacherClasse=document.getElementById('teacherClasse')
+                const fetchD= await fetch('/get-classes')
+                const json= await fetchD.json()
+                try{
+                    json.data.forEach(field => {
+                        teacherClasse.innerHTML=teacherClasse.innerHTML+`<option value="${field.name}">${field.name}</option>` 
+                    });
+                }catch(err){
+                    console.error(error)
+                }
+            }
+            getClasses()
+            // events
+            // add user component
+            const addIUser=document.querySelector('#addIUser')
+            addIUser.addEventListener('submit',async(e)=>{
+                e.preventDefault()
+                console.log(e.currentTarget)
+                const successTeacher=document.querySelector('#successTeacher')
+                const successTeacherCont=document.querySelector('#successTeacherCont')
+                console.log(addIUser.value)
+                const formData = new FormData(addIUser);
+                const formObject = Object.fromEntries(formData.entries());
+
+                const fetchD = await fetch('/add/teacher', {
+                    method: 'POST',
+                    body: JSON.stringify(formObject),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data= await fetchD.json()
+                if(data.success){
+                    successTeacher.classList.remove('hidden')
+                    successTeacherCont.innerHTML=`
+                        <h1 class="text-xl mb-4">Enregistrement reussi</h1>
+                        <p class="text-[12px] text-slate-700/50">Enseignant ajouter avec success</p>
+                        <button class="bg-red-500/70 px-3 hover:bg-red-500 text-slate-50 rouded-md p-1 rounded-full cursor-pointer" id="closeSuccess" onclick="removeSuccess()">Fermer</button>
+                    `
+                }else{
+                    successTeacher.classList.remove('hidden')
+                    successTeacherCont.innerHTML=`
+                        <h1 class="text-xl mb-4">Erreur d'enregistrement</h1>
+                        <p class="text-[12px] text-red-700/50">${data.message}</p>
+                        <button class="bg-red-500/70 px-3 hover:bg-red-500 text-slate-50 rouded-md p-1 rounded-full cursor-pointer" id="closeSuccess" onclick="removeSuccess()">Fermer</button>
+                    `
+                }
+            })
+            const removeSuccess=()=>{
+                const closeSuccess=document.querySelector('#successTeacher')
+                const addTeacherEl=document.getElementById('addTeacher')
+                closeSuccess.classList.add('hidden')
+                addTeacherEl.classList.add('hidden')
+            }
+        </script>
+    </body>
+</html>

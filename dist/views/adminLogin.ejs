@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <%- include('header') -%>
+  <body>
+    <main class="flex items-center justify-center flex-col h-screen w-screen">
+      <form action="/admin-password/safe" method="POST" class="grid gap-3">
+        <h1 class="text-[32px] text-slate-700">Confirmer votre identité</h1>
+        <!-- Champ Email -->
+        <div class="border border-slate-700/50 h-[50px] rounded-md py-1 px-3 flex flex-col bg-slate-700/30">
+          <small>Email</small>
+          <input
+            type="email"
+            class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]"
+            placeholder="Entrez votre email"
+            name="userEmail"
+            id="userEmail"
+            value="<%= user?.email || '' %>"
+            readonly
+          />
+        </div>
+
+        <!-- Champ Password -->
+        <div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
+          <small>Mot de passe</small>
+          <input
+            type="password"
+            class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]"
+            placeholder="Entrez votre mot de passe"
+            name="userPassword"
+            id="userPassword"
+            required
+          />
+        </div>
+        <% if (error) { %>
+            <small class="text-red-500"><%= error %></small>
+        <% } %>
+        <!-- Bouton -->
+        <button
+          type="submit"
+          class="bg-slate-700 text-slate-50 py-2 rounded-lg cursor-pointer transition duration-300"
+          id="submitButton"
+        >
+          Connexion
+        </button>
+
+        <!-- Lien alternatif -->
+        <a href="#" class="text-slate-700/70 text-sm text-center">Me connecter en tant qu'enseignant</a>
+      </form>
+    </main>
+  </body>
+</html>
