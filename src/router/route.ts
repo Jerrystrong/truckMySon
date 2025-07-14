@@ -101,11 +101,11 @@ router.post('/login',async(req:Request,res:Response)=>{
 })
 // student login
 router.post('/api/login/student',async(req:Request,res:Response)=>{
-    const {studentIdentifiant}= req.body
+    const {studentIdentifiant,studentClasse}= req.body
     if(!studentIdentifiant){
         res.json({success:false,message:'vous devez entrer votre identifiant'})
     }else{
-        const student=await Student.findOne({identifiant:studentIdentifiant})
+        const student=await Student.findOne({identifiant:studentIdentifiant}).populate('teacherId','teacherName teacherLastname teacherPhone')
         if(student){
             const token=generateToken(student?._id.toString())
             res.json({success:true,student:student,token:token})

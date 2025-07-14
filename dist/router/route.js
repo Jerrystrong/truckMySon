@@ -121,12 +121,12 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 // student login
 router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { studentIdentifiant } = req.body;
+    const { studentIdentifiant, studentClasse } = req.body;
     if (!studentIdentifiant) {
         res.json({ success: false, message: 'vous devez entrer votre identifiant' });
     }
     else {
-        const student = yield student_model_1.Student.findOne({ identifiant: studentIdentifiant });
+        const student = yield student_model_1.Student.findOne({ identifiant: studentIdentifiant }).populate('teacherId', 'teacherName teacherLastname teacherPhone');
         if (student) {
             const token = (0, token_util_1.generateToken)(student === null || student === void 0 ? void 0 : student._id.toString());
             res.json({ success: true, student: student, token: token });
