@@ -26,6 +26,7 @@ const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const school_model_1 = require("../model/school.model");
 const token_util_1 = require("../utils/token.util");
+const getDistance_1 = require("../utils/getDistance");
 const upload = (0, multer_1.default)({ dest: path_1.default.join(__dirname, '../../upload') });
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -134,6 +135,18 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
         else {
             res.status(404).json({ success: false, message: 'aucun eleve correspond à cet token' });
         }
+    }
+}));
+router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { points } = req.body;
+    console.log(points);
+    const school = yield school_model_1.School.findOne({});
+    console.log(school);
+    if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
+        const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
+        // console.log(distance)
+        // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+        res.json({ distance: distance });
     }
 }));
 router.post('/admin-password/safe', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
