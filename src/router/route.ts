@@ -11,7 +11,7 @@ import { Student } from "../model/student.model";
 import multer from 'multer'
 import path from "path";
 import { School } from "../model/school.model";
-import { generateToken } from '../utils/token.util';
+import { generateToken, verifyToken } from '../utils/token.util';
 import { getDistanceFromLatLonInKm } from "../utils/getDistance";
 
 const upload=multer({dest:path.join(__dirname,'../../upload')})
@@ -117,15 +117,22 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
 })
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
+    const {token}=req.body
     console.log(points)
-    const school=await School.findOne({})
-    console.log(school)
-    if(school?.schoolLocation){
-        const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
-        // console.log(distance)
-        // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
-        res.json({distance:distance})
+    const authentified=verifyToken(token)
+    if(authentified.valid){
+         const school=await School.findOne({})
+        console.log(school)
+        if(school?.schoolLocation){
+            const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
+            // console.log(distance)
+            // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            res.json({success:true,distance:distance})
+        }
+    }else{
+        res.json({success:false,message:'token expire',redirect:true})
     }
+   
 })
 router.post('/admin-password/safe',async (req:Request,res:Response)=>{
     const {userPassword}=req.body

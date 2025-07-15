@@ -139,14 +139,21 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
 }));
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
+    const { token } = req.body;
     console.log(points);
-    const school = yield school_model_1.School.findOne({});
-    console.log(school);
-    if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
-        const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
-        // console.log(distance)
-        // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
-        res.json({ distance: distance });
+    const authentified = (0, token_util_1.verifyToken)(token);
+    if (authentified.valid) {
+        const school = yield school_model_1.School.findOne({});
+        console.log(school);
+        if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
+            const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
+            // console.log(distance)
+            // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            res.json({ success: true, distance: distance });
+        }
+    }
+    else {
+        res.json({ success: false, message: 'token expire', redirect: true });
     }
 }));
 router.post('/admin-password/safe', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
