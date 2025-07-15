@@ -114,6 +114,11 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
         }
     }
 })
+router.post('/api/get-student-position',async(req:Request,res:Response)=>{
+    const {points}=req.body
+    console.log(points)
+    res.json({data:points})
+})
 router.post('/admin-password/safe',async (req:Request,res:Response)=>{
     const {userPassword}=req.body
     try{
