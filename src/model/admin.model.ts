@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from 'validator'
+import bcrypt from 'bcrypt'
 const adminSchema=new mongoose.Schema({
     adminName:{
         type:String,
@@ -19,6 +20,13 @@ const adminSchema=new mongoose.Schema({
         }
     }
 })
+adminSchema.pre('save', async function (this: mongoose.Document & { adminPassword: string }) {
+    if (this.isModified('adminPassword')) {
+        const salt = await bcrypt.genSalt();
+        const hashed = await bcrypt.hash(this.adminPassword, salt);
+        this.adminPassword = hashed;
+    }
+});
 
 const Admin=mongoose.model('Admin',adminSchema)
 export {Admin}

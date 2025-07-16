@@ -37,11 +37,36 @@ router.post('/add/school/data',async (req:Request,res:Response)=>{
         console.log('schoolLocation manquant')
     }
 })
+// rendre un enseignant admin
+router.post('/api/set-admin',async(req:Request,res:Response)=>{
+    const data=req.body
+    const genCode=generateCode()
+    const pw=`@adm${genCode}in`
+    data.adminPassword=pw
+    if(data.adminEmail){
+        try{
+            const admin = new Admin(data)
+            await admin.save()
+            if(admin.adminEmail){
+                await confirmMail(admin.adminEmail, pw,'Code de verification')
+                res.status(200).json({success:true,passWord:pw})
+            }
+        }catch(err:unknown){
+            if(err && err instanceof Error){
+                console.log(err)
+                res.status(500).json({success:false,message:err.message})
+            }
+        }
+    }
+
+})
 // router.post('/add-school/data',addSchool);
 router.get('/',isAuthentified,async(req:Request,res:Response)=>{
     const teacher=await Teacher.find({})
-    const student=await Student.find({})
-    res.render('index.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],student:student[student.length-1]})
+    const student=await Student.find({teacherId:req.session.user.teacherId})
+    const adStudent=await Student.find({})
+    const classes=await Class.find({})
+    res.render('index.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],student:student[student.length-1],students:student,teachers:teacher,adStudent,classes})
 })
 router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
     const teachers=await Teacher.find({})
@@ -52,7 +77,7 @@ router.get('/eleves',isAuthentified,async(req:Request,res:Response)=>{
     res.render('eleves.ejs',{user:req.session.user,teacher})
 })
 router.get('/eleves/list',isAuthentified,async(req:Request,res:Response)=>{
-    const students=await Student.find({})
+    const students=await Student.find({teacherId:req.session.user.teacherId})
     res.render('studentListe.ejs',{user:req.session.user,students})
 })
 router.get('/parameter',isAuthentified,(req:Request,res:Response)=>{
@@ -91,7 +116,7 @@ router.post('/login',async(req:Request,res:Response)=>{
             teacher.codeExpiretion=new Date().getTime()+5*60*1000
             await teacher.save()
             if (typeof teacher.teacherEmail === 'string') {
-                await confirmMail(teacher.teacherEmail, code)
+                await confirmMail(teacher.teacherEmail, code,'Code de verification')
                 req.session.user={teacherId:teacher?._id,email:teacher?.teacherEmail}
                 res.redirect('/teacher-password/complet-login')
             } else {
@@ -118,11 +143,12 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body
-    console.log(points)
+    // console.log(points)  
     const authentified=verifyToken(token)
     if(authentified.valid){
          const school=await School.findOne({})
-        console.log(school)
+         req.session.user.school=school
+        console.log(req.session.user.school)
         if(school?.schoolLocation){
             const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
             // console.log(distance)

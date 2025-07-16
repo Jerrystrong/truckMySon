@@ -1,9 +1,38 @@
 // variables declaration
 const waCall=document.getElementById('wa-call')
 const normalCall=document.getElementById('normal-call')
+const setAdmin=document.getElementById('setAdmin')
+const socket = io();
 
 const redirectFunction=(lien)=>{
     location.replace(lien)
+}
+const setAminFunction = async(email,name)=>{
+    console.log(email)
+    const adminData={
+        adminName:name,
+        adminEmail:email
+    }
+    try {
+        const response = await fetch('https://truckmyson.onrender.com/api/set-admin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adminData),
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Succès :', data);
+            return data;
+        } else {
+            console.error('Erreur côté serveur :', data.message || data);
+            return null;
+        }
+    } catch (error) {
+        console.error('Erreur de réseau ou autre :', error);
+        return null;
+    }
 }
 let isPoupopEnseignant=false
 /**
@@ -22,11 +51,13 @@ const setPoupop=(userInfo)=>{
         const infos=Object.entries(info)
         poopopContainer.innerHTML=poopopContainer.innerHTML+`<div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
             <small>${infos[0][0]}</small>
-            <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
             <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="${infos[0][1]}" value="${infos[0][1]}">
         </div>`
     })
-    console.log(infoUser)
+    // console.log(infoUser)
+    poopopContainer.innerHTML=poopopContainer.innerHTML+`
+        <button class="text-slate-700/50 text-[14px] mt-5 hover:text-slate-800 cursor-pointer flex justify-start" id="setAdmin" onclick="setAminFunction('${Object.entries(infoUser[7])[0][1]}',',${Object.entries(infoUser[1])[0][1]}')">Rendre admin</button>
+    `
     // infoUser.map((info)=>{console.log(Object.entries(info))})
 }
 const removeSingleuser=()=>{
@@ -55,7 +86,6 @@ const openStutentPoopop=(userInfo)=>{
         const infos=Object.entries(info)
         eleveContainer.innerHTML=eleveContainer.innerHTML+`<div class="border border-slate-700 h-[50px] rounded-md py-1 px-3 flex flex-col">
             <small>${infos[0][0]}</small>
-            <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
             <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="${infos[0][1]}" value="${infos[0][1]}">
         </div>`
     })
