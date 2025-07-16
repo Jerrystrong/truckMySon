@@ -53,11 +53,36 @@ router.post('/add/school/data', (req, res) => __awaiter(void 0, void 0, void 0, 
         console.log('schoolLocation manquant');
     }
 }));
+// rendre un enseignant admin
+router.post('/api/set-admin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = req.body;
+    const genCode = (0, generateCodeR_1.generateCode)();
+    const pw = `@adm${genCode}in`;
+    data.adminPassword = pw;
+    if (data.adminEmail) {
+        try {
+            const admin = new admin_model_1.Admin(data);
+            yield admin.save();
+            if (admin.adminEmail) {
+                yield (0, sendConfirmMail_1.confirmMail)(admin.adminEmail, pw, 'Code de verification');
+                res.status(200).json({ success: true, passWord: pw });
+            }
+        }
+        catch (err) {
+            if (err && err instanceof Error) {
+                console.log(err);
+                res.status(500).json({ success: false, message: err.message });
+            }
+        }
+    }
+}));
 // router.post('/add-school/data',addSchool);
 router.get('/', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teacher = yield teacher_model_1.Teacher.find({});
-    const student = yield student_model_1.Student.find({});
-    res.render('index.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], student: student[student.length - 1] });
+    const student = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
+    const adStudent = yield student_model_1.Student.find({});
+    const classes = yield class_model_1.Class.find({});
+    res.render('index.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], student: student[student.length - 1], students: student, teachers: teacher, adStudent, classes });
 }));
 router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teachers = yield teacher_model_1.Teacher.find({});
@@ -68,7 +93,7 @@ router.get('/eleves', isAuthentified_1.isAuthentified, (req, res) => __awaiter(v
     res.render('eleves.ejs', { user: req.session.user, teacher });
 }));
 router.get('/eleves/list', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const students = yield student_model_1.Student.find({});
+    const students = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
     res.render('studentListe.ejs', { user: req.session.user, students });
 }));
 router.get('/parameter', isAuthentified_1.isAuthentified, (req, res) => {
@@ -110,7 +135,7 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             teacher.codeExpiretion = new Date().getTime() + 5 * 60 * 1000;
             yield teacher.save();
             if (typeof teacher.teacherEmail === 'string') {
-                yield (0, sendConfirmMail_1.confirmMail)(teacher.teacherEmail, code);
+                yield (0, sendConfirmMail_1.confirmMail)(teacher.teacherEmail, code, 'Code de verification');
                 req.session.user = { teacherId: teacher === null || teacher === void 0 ? void 0 : teacher._id, email: teacher === null || teacher === void 0 ? void 0 : teacher.teacherEmail };
                 res.redirect('/teacher-password/complet-login');
             }
@@ -140,11 +165,12 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
     const { token } = req.body;
-    console.log(points);
+    // console.log(points)  
     const authentified = (0, token_util_1.verifyToken)(token);
     if (authentified.valid) {
         const school = yield school_model_1.School.findOne({});
-        console.log(school);
+        req.session.user.school = school;
+        console.log(req.session.user.school);
         if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
             const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
             // console.log(distance)

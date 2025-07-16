@@ -11,15 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirmMail = void 0;
 const transporter_1 = require("./transporter");
-const confirmMail = (destinateur, code) => __awaiter(void 0, void 0, void 0, function* () {
+const confirmMail = (destinateur, code, title) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const message = yield transporter_1.transporter.sendMail({
             from: 'Team gestion Eleve <supportgestion@gmail.com>',
             to: destinateur,
             subject: 'Confirmation log in',
-            text: 'Utiliser le code pour confirmer le code',
+            text: 'Utiliser le code pour confirmer votre connection',
             html: `<div>
-                    <h1>Code de verification</h1>
+                    <h1>${title}</h1>
                     <div style="background-color:#7AC6D2;color:#fefefe;padding:10px;width:fit-content;border-radius:10px">
                         ${code}
                     </div>
