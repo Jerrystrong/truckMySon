@@ -12,6 +12,7 @@ const Port=process.env.PORT||3003
 io.on('connect',(socket)=>{
     console.log('user connected')
 })
+
 mongoose.connection.on('open',()=>{
     console.log('mongoose connected')
     server.listen(Port,()=>{
@@ -19,3 +20,5 @@ mongoose.connection.on('open',()=>{
         // createRootTeacher()
     })
 })
+
+export {io}

@@ -49,7 +49,7 @@ const teacherSchema=new mongoose.Schema({
         adminId:{
             type:Schema.Types.ObjectId,
             ref:'Admin'
-        }
+        },notification:Array
 })
 
 const Teacher=mongoose.model('Teacher',teacherSchema)

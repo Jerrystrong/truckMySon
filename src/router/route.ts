@@ -13,6 +13,7 @@ import path from "path";
 import { School } from "../model/school.model";
 import { generateToken, verifyToken } from '../utils/token.util';
 import { getDistanceFromLatLonInKm } from "../utils/getDistance";
+import { io } from "..";
 
 const upload=multer({dest:path.join(__dirname,'../../upload')})
 const router=Router()
@@ -132,9 +133,10 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
         res.json({success:false,message:'vous devez entrer votre identifiant'})
     }else{
         const student=await Student.findOne({identifiant:studentIdentifiant}).populate('teacherId','teacherName teacherLastname teacherPhone')
+        const school=await School.findOne({})
         if(student){
             const token=generateToken(student?._id.toString())
-            res.json({success:true,student:student,token:token})
+            res.json({success:true,student:student,token:token,schoolId:school?._id})
         }else{
             res.status(404).json({success:false,message:'aucun eleve correspond à cet token'})
         }
@@ -143,16 +145,32 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body
+    const {schoolId}=req.body
     // console.log(points)  
     const authentified=verifyToken(token)
     if(authentified.valid){
-         const school=await School.findOne({})
-         req.session.user.school=school
-        console.log(req.session.user.school)
+         const school=await School.findById(schoolId)
+         const student= await Student.findOne({id:authentified.payload}).populate('teacherId','teacherName teacherLastname teacherPhone')
+        //  req.session.user.school=school
+        // console.log(req.session.user.school)
         if(school?.schoolLocation){
             const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
             // console.log(distance)
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            if(distance>=1){
+                const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
+                io.emit('onFarAway',{
+                    message: `l'élève est éloigné de ${distance} de l'école`,
+                    noms: `${student?.studentName} ${student?.studentLastname}`,
+                    parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
+                })
+                if(teacher){
+                    teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance} de l'école`])
+                    await teacher.save()
+                }
+            }
+            io.emit('presence',{noms: `${student?.studentName} ${student?.studentLastname}`,
+                    parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '',time:new Date()})
             res.json({success:true,distance:distance})
         }
     }else{
