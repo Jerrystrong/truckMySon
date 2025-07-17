@@ -27,6 +27,7 @@ const path_1 = __importDefault(require("path"));
 const school_model_1 = require("../model/school.model");
 const token_util_1 = require("../utils/token.util");
 const getDistance_1 = require("../utils/getDistance");
+const __1 = require("..");
 const upload = (0, multer_1.default)({ dest: path_1.default.join(__dirname, '../../upload') });
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -153,9 +154,10 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
     }
     else {
         const student = yield student_model_1.Student.findOne({ identifiant: studentIdentifiant }).populate('teacherId', 'teacherName teacherLastname teacherPhone');
+        const school = yield school_model_1.School.findOne({});
         if (student) {
             const token = (0, token_util_1.generateToken)(student === null || student === void 0 ? void 0 : student._id.toString());
-            res.json({ success: true, student: student, token: token });
+            res.json({ success: true, student: student, token: token, schoolId: school === null || school === void 0 ? void 0 : school._id });
         }
         else {
             res.status(404).json({ success: false, message: 'aucun eleve correspond à cet token' });
@@ -165,16 +167,32 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
     const { token } = req.body;
+    const { schoolId } = req.body;
     // console.log(points)  
     const authentified = (0, token_util_1.verifyToken)(token);
     if (authentified.valid) {
-        const school = yield school_model_1.School.findOne({});
-        req.session.user.school = school;
-        console.log(req.session.user.school);
+        const school = yield school_model_1.School.findById(schoolId);
+        const student = yield student_model_1.Student.findOne({ id: authentified.payload }).populate('teacherId', 'teacherName teacherLastname teacherPhone');
+        //  req.session.user.school=school
+        // console.log(req.session.user.school)
         if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
             const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
             // console.log(distance)
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            if (distance >= 1) {
+                const teacher = yield teacher_model_1.Teacher.findOne({ teacherClasseIdentifiant: student === null || student === void 0 ? void 0 : student.studentClasseIdentnifiant });
+                __1.io.emit('onFarAway', {
+                    message: `l'élève est éloigné de ${distance} de l'école`,
+                    noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
+                    parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
+                });
+                if (teacher) {
+                    teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance} de l'école`]);
+                    yield teacher.save();
+                }
+            }
+            __1.io.emit('presence', { noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
+                parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '', time: new Date() });
             res.json({ success: true, distance: distance });
         }
     }

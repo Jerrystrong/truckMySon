@@ -149,3 +149,10 @@ normalCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
     window.open(`tel:${phoneNumber}`)
 })
+// io event listening
+socket.on('onFarAway',(data)=>{
+    console.log(data)
+})
+socket.on('presence',(data)=>{
+    console.log(data)
+})

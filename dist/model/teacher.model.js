@@ -96,7 +96,7 @@ const teacherSchema = new mongoose_1.default.Schema({
     adminId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Admin'
-    }
+    }, notification: Array
 });
 const Teacher = mongoose_1.default.model('Teacher', teacherSchema);
 exports.Teacher = Teacher;
