@@ -14,6 +14,7 @@ import { School } from "../model/school.model";
 import { generateToken, verifyToken } from '../utils/token.util';
 import { getDistanceFromLatLonInKm } from "../utils/getDistance";
 import { io } from "..";
+import { Presence } from "../model/presence.model";
 
 const upload=multer({dest:path.join(__dirname,'../../upload')})
 const router=Router()
@@ -75,7 +76,9 @@ router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
 })
 router.get('/eleves',isAuthentified,async(req:Request,res:Response)=>{
     const teacher=await Teacher.findById(req.session.user.teacherId)
-    res.render('eleves.ejs',{user:req.session.user,teacher})
+    const date=new Date()
+    const presence=await Presence.find({getDate:date.getTime(),teacher:req.session.user.teacherId})
+    res.render('eleves.ejs',{user:req.session.user,teacher,presence})
 })
 router.get('/eleves/list',isAuthentified,async(req:Request,res:Response)=>{
     const students=await Student.find({teacherId:req.session.user.teacherId})
@@ -157,8 +160,8 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
             // console.log(distance)
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
             if(distance>=1){
-                const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance} de l'école`,
                     noms: `${student?.studentName} ${student?.studentLastname}`,
@@ -171,7 +174,19 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             }
             io.emit('presence',{noms: `${student?.studentName} ${student?.studentLastname}`,
                     parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '',time:new Date()})
-            res.json({success:true,distance:distance})
+            const date=new Date()
+            if(teacher){
+                const prensence= new Presence({
+                    studentName:`${student?.studentName} ${student?.studentLastname}`,
+                    heure:`${date.getHours()}: ${date.getMinutes()}`,
+                    getDate:date.getTime(),
+                    teacher:teacher?._id
+                })
+                await prensence.save()
+                res.json({success:true,distance:distance})
+            }else{
+                res.json({success:true,distance:distance})
+            }
         }
     }else{
         res.json({success:false,message:'token expire',redirect:true})

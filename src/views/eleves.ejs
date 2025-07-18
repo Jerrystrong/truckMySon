@@ -155,208 +155,52 @@
                                 <input type="search" name="dailyStudent" id="dailyStudent" placeholder="rechercher un eleve" class="pl-2 focus:outline-0 focus:border-0">
                             </div>
                         </div>
-                        <div class="grid grid-cols-4 md-grid-cols-2 max-sm:grid-cols-1 gap-3">
-                            <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
+                        <% if(presence.lenght>0){%>
+                            <div class="grid grid-cols-4 md-grid-cols-2 max-sm:grid-cols-1 gap-3">
+                            <% for (let i = 0; i < presence.length; i++) { 
+                                const user = presence[i]; 
+                            %>
+                                <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
+                                    <div class="w-full h-[150px] object-cover text-[120px] flex items-center text-slate-700 justify-center">
+                                    <i class="fa-solid fa-image"></i>
+                                    </div>
+                                    <div class="p-2">
+                                    <h2 class="font-semibold text-slate-700">
+                                        <%= user.studentName %>
+                                    </h2>
                                     <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
+                                        <p class="text-[12px] text-slate-700/60">
+                                        Dernier presence en ligne <%= user.heure %>
+                                        </p>
                                         <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
                                     </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
+                                    <p class="text-[12px] text-slate-700/90">
+                                        Fin presence en cours: 12h30min
+                                    </p>
+                                    </div>
+                                    <!-- action -->
+                                    <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
+                                    </div>
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
+                                    </div>
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
+                                    </div>
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-solid fa-circle-info"></i>
-                                   </div>
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                            <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <div class="w-full h-[150px] object-cover text-[120px] flex items-center text-slate-700 justify-center">
-                                    <i class="fa-solid fa-image "></i>
-                                </div>
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
                                     </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-circle-info"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                            <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
                                     </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
                                 </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
+                            <% } %>
+
+                                <!-- ===== -->
                             </div>
-                            <!-- ===== -->
-                              <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
-                                    </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                              <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
-                                    </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                              <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
-                                    </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                              <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
-                                    </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                              <div class="border border-dashed border-slate-700 w-fit rounded-lg overflow-hidden">
-                                <img src="/kkkt.png" alt="profil-evele" class="w-full h-[150px] object-cover">
-                                <div class="p-2">
-                                    <h2 class="font-semibold text-slate-700">Matondo Matondo Christian</h2>
-                                    <div class="flex justify-between items-center">
-                                        <p class="text-[12px] text-slate-700/60">Dernier presence en ligne 1h</p>
-                                        <div class="w-[10px] h-[10px] bg-red-700 rounded-full animate-pulse"></div>
-                                    </div>
-                                    <p class="text-[12px] text-slate-700/90">Fin presence en cours: 1h</p>
-                                </div>
-                                <!-- action -->
-                                <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-note-sticky"></i>
-                                   </div> 
-                                   <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-solid fa-phone"></i>
-                                   </div> 
-                                </div>
-                            </div>
-                            <!-- ===== -->
-                        </div>
+                        <%}else{%>
+                            <h1 class="text-red-500 text-[24px]">Aucun etudiant a signe sa presence</h1>
+                        <%}%>
                     </div>
                 </div>
                

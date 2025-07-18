@@ -28,6 +28,7 @@ const school_model_1 = require("../model/school.model");
 const token_util_1 = require("../utils/token.util");
 const getDistance_1 = require("../utils/getDistance");
 const __1 = require("..");
+const presence_model_1 = require("../model/presence.model");
 const upload = (0, multer_1.default)({ dest: path_1.default.join(__dirname, '../../upload') });
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -91,7 +92,9 @@ router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __await
 }));
 router.get('/eleves', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teacher = yield teacher_model_1.Teacher.findById(req.session.user.teacherId);
-    res.render('eleves.ejs', { user: req.session.user, teacher });
+    const date = new Date();
+    const presence = yield presence_model_1.Presence.find({ getDate: date.getTime(), teacher: req.session.user.teacherId });
+    res.render('eleves.ejs', { user: req.session.user, teacher, presence });
 }));
 router.get('/eleves/list', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const students = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
@@ -179,8 +182,8 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
             // console.log(distance)
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
+            const teacher = yield teacher_model_1.Teacher.findOne({ teacherClasseIdentifiant: student === null || student === void 0 ? void 0 : student.studentClasseIdentnifiant });
             if (distance >= 1) {
-                const teacher = yield teacher_model_1.Teacher.findOne({ teacherClasseIdentifiant: student === null || student === void 0 ? void 0 : student.studentClasseIdentnifiant });
                 __1.io.emit('onFarAway', {
                     message: `l'élève est éloigné de ${distance} de l'école`,
                     noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
@@ -193,7 +196,20 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             }
             __1.io.emit('presence', { noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
                 parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '', time: new Date() });
-            res.json({ success: true, distance: distance });
+            const date = new Date();
+            if (teacher) {
+                const prensence = new presence_model_1.Presence({
+                    studentName: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
+                    heure: `${date.getHours()}: ${date.getMinutes()}`,
+                    getDate: date.getTime(),
+                    teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id
+                });
+                yield prensence.save();
+                res.json({ success: true, distance: distance });
+            }
+            else {
+                res.json({ success: true, distance: distance });
+            }
         }
     }
     else {
