@@ -154,8 +154,8 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const authentified=verifyToken(token)
     if(authentified.valid){
          const school=await School.findById(schoolId)
-         console.log(`Payload: ${authentified.payload}`)
-         const student= await Student.findOne({id:authentified.payload}).populate('teacherId','teacherName teacherLastname teacherPhone')
+         console.log(`Payload: ${authentified.payload.token}`)
+         const student= await Student.findOne({id:authentified.payload.token}).populate('teacherId','teacherName teacherLastname teacherPhone')
         //  req.session.user.school=school
         console.log(`Student`)
         console.log(student)
