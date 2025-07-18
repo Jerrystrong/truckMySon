@@ -152,6 +152,17 @@ normalCall.addEventListener('click',function(){
 // io event listening
 socket.on('onFarAway',(data)=>{
     console.log(data)
+    const notificationCount=document.querySelector('#notificationCount')
+    const studentFar=document.querySelector('#studentFar')
+    const count=parseInt(notificationCount.textContent.trim())
+    notificationCount.textContent=`${count+1}`
+    studentFar.innerHTML=studentFar.innerHTML+`
+     <div class="flex flex-col gap-5">
+        <h1 class="text-[24px]">${data.message}</h1>
+        <p>${data.noms}</p>
+        <p>Appeler les parent</p>
+     </div>   
+    `
 })
 socket.on('presence',(data)=>{
     console.log(data)
