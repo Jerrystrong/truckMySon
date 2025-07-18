@@ -150,17 +150,23 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {token}=req.body
     const {schoolId}=req.body
     console.log(token)  
+    console.log(schoolId)  
     const authentified=verifyToken(token)
     if(authentified.valid){
          const school=await School.findById(schoolId)
+         console.log(`Payload: ${authentified.payload}`)
          const student= await Student.findOne({id:authentified.payload}).populate('teacherId','teacherName teacherLastname teacherPhone')
         //  req.session.user.school=school
-        // console.log(req.session.user.school)
+        console.log(`Student`)
+        console.log(student)
+        console.log('is autthentified')
         if(school?.schoolLocation){
             const distance=Math.round(getDistanceFromLatLonInKm(points.latitude,points.longitude,school?.schoolLocation[1],school?.schoolLocation[0]))
             // console.log(distance)
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
             const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
+            console.log('teacher')
+            console.log(teacher)
             if(distance>=1){
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance} de l'école`,
