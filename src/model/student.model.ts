@@ -47,6 +47,7 @@ const studentSchema=new mongoose.Schema({
         }
     },
     studentProfil:String,
+    studentPresence:String,
     teacherId:{
         type:Schema.Types.ObjectId,
         ref:'Teacher'

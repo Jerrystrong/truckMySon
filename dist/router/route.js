@@ -168,7 +168,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
     const { points } = req.body;
     const { token } = req.body;
     const { schoolId } = req.body;
-    // console.log(points)  
+    console.log(token);
     const authentified = (0, token_util_1.verifyToken)(token);
     if (authentified.valid) {
         const school = yield school_model_1.School.findById(schoolId);

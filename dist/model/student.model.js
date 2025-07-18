@@ -86,6 +86,7 @@ const studentSchema = new mongoose_1.default.Schema({
         }
     },
     studentProfil: String,
+    studentPresence: String,
     teacherId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Teacher'
