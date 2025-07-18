@@ -10,6 +10,7 @@ const presenceSchema = new mongoose_1.default.Schema({
     heure: String,
     teacher: String,
     getDate: Number,
+    dateString: String,
     createAt: {
         type: Date,
         default: Date.now

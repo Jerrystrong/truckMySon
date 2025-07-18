@@ -92,8 +92,9 @@ router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __await
 }));
 router.get('/eleves', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teacher = yield teacher_model_1.Teacher.findById(req.session.user.teacherId);
-    const date = new Date();
-    const presence = yield presence_model_1.Presence.find({ getDate: date.getTime(), teacher: req.session.user.teacherId });
+    const dateString = new Date().toISOString().split('T')[0];
+    const presence = yield presence_model_1.Presence.find({ dateString, teacher: req.session.user.teacherId });
+    console.log(presence);
     res.render('eleves.ejs', { user: req.session.user, teacher, presence });
 }));
 router.get('/eleves/list', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -171,17 +172,11 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
     const { points } = req.body;
     const { token } = req.body;
     const { schoolId } = req.body;
-    console.log(token);
-    console.log(schoolId);
     const authentified = (0, token_util_1.verifyToken)(token);
     if (authentified.valid) {
         const school = yield school_model_1.School.findById(schoolId);
-        console.log(`Payload: ${authentified.payload.token}`);
         const student = yield student_model_1.Student.findById(authentified.payload.token).populate('teacherId', 'teacherName teacherLastname teacherPhone');
         //  req.session.user.school=school
-        console.log(`Student`);
-        console.log(student);
-        console.log('is autthentified');
         if (school === null || school === void 0 ? void 0 : school.schoolLocation) {
             const distance = Math.round((0, getDistance_1.getDistanceFromLatLonInKm)(points.latitude, points.longitude, school === null || school === void 0 ? void 0 : school.schoolLocation[1], school === null || school === void 0 ? void 0 : school.schoolLocation[0]));
             // console.log(distance)
@@ -204,11 +199,13 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                 parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '', time: new Date() });
             const date = new Date();
             if (teacher) {
+                const dateString = date.toISOString().split('T')[0];
                 const prensence = new presence_model_1.Presence({
                     studentName: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
                     heure: `${date.getHours()}: ${date.getMinutes()}`,
                     getDate: date.getTime(),
-                    teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id
+                    teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id,
+                    dateString
                 });
                 yield prensence.save();
                 res.json({ success: true, distance: distance });
