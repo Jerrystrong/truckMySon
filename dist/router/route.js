@@ -177,7 +177,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
     if (authentified.valid) {
         const school = yield school_model_1.School.findById(schoolId);
         console.log(`Payload: ${authentified.payload.token}`);
-        const student = yield student_model_1.Student.findOne({ id: authentified.payload.token }).populate('teacherId', 'teacherName teacherLastname teacherPhone');
+        const student = yield student_model_1.Student.findById(authentified.payload.token).populate('teacherId', 'teacherName teacherLastname teacherPhone');
         //  req.session.user.school=school
         console.log(`Student`);
         console.log(student);
