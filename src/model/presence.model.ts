@@ -5,7 +5,10 @@ const presenceSchema=new mongoose.Schema({
     heure:String,
     teacher:String,
     getDate:Number,
-    createAt:Date.now
+    createAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 const Presence = mongoose.model('Presence', presenceSchema)
