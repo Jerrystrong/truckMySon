@@ -146,7 +146,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body
     const {schoolId}=req.body
-    // console.log(points)  
+    console.log(token)  
     const authentified=verifyToken(token)
     if(authentified.valid){
          const school=await School.findById(schoolId)
