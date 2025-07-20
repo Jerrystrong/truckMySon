@@ -82,8 +82,22 @@ router.get('/eleves',isAuthentified,async(req:Request,res:Response)=>{
     res.render('eleves.ejs',{user:req.session.user,teacher,presence})
 })
 router.get('/eleves/list',isAuthentified,async(req:Request,res:Response)=>{
-    const students=await Student.find({teacherId:req.session.user.teacherId})
-    res.render('studentListe.ejs',{user:req.session.user,students})
+    const studentNameRaw = req.query.studentName;
+    const studentName = typeof studentNameRaw === 'string' ? studentNameRaw : Array.isArray(studentNameRaw) ? studentNameRaw[0] : '';
+    console.log(studentName);
+    if(studentName){
+        const students=await Student.find({teacherId:req.session.user.teacherId});
+        const filteredStudents = students.filter((std) => {
+            const stdName = typeof std.studentName === 'string' ? std.studentName.toLowerCase() : '';
+            const stdLastName = typeof std.studentLastname === 'string' ? std.studentLastname.toLowerCase() : '';
+            const searchName = typeof studentName === 'string' ? studentName.toLowerCase() : '';
+            return stdName.includes(searchName)?true:stdLastName.includes(searchName)?true:false;
+        });
+        return res.render('studentListe.ejs',{user:req.session.user,students:filteredStudents});
+    }else{
+        const students=await Student.find({teacherId:req.session.user.teacherId});
+        return res.render('studentListe.ejs',{user:req.session.user,students});
+    }
 })
 router.get('/parameter',isAuthentified,(req:Request,res:Response)=>{
     res.render('parameter.ejs',{user:req.session.user})

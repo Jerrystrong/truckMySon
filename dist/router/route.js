@@ -98,8 +98,23 @@ router.get('/eleves', isAuthentified_1.isAuthentified, (req, res) => __awaiter(v
     res.render('eleves.ejs', { user: req.session.user, teacher, presence });
 }));
 router.get('/eleves/list', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const students = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
-    res.render('studentListe.ejs', { user: req.session.user, students });
+    const studentNameRaw = req.query.studentName;
+    const studentName = typeof studentNameRaw === 'string' ? studentNameRaw : Array.isArray(studentNameRaw) ? studentNameRaw[0] : '';
+    console.log(studentName);
+    if (studentName) {
+        const students = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
+        const filteredStudents = students.filter((std) => {
+            const stdName = typeof std.studentName === 'string' ? std.studentName.toLowerCase() : '';
+            const stdLastName = typeof std.studentLastname === 'string' ? std.studentLastname.toLowerCase() : '';
+            const searchName = typeof studentName === 'string' ? studentName.toLowerCase() : '';
+            return stdName.includes(searchName) ? true : stdLastName.includes(searchName) ? true : false;
+        });
+        return res.render('studentListe.ejs', { user: req.session.user, students: filteredStudents });
+    }
+    else {
+        const students = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
+        return res.render('studentListe.ejs', { user: req.session.user, students });
+    }
 }));
 router.get('/parameter', isAuthentified_1.isAuthentified, (req, res) => {
     res.render('parameter.ejs', { user: req.session.user });

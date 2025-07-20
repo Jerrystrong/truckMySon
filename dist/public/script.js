@@ -2,6 +2,7 @@
 const waCall=document.getElementById('wa-call')
 const normalCall=document.getElementById('normal-call')
 const setAdmin=document.getElementById('setAdmin')
+const recherche=document.getElementById('recherche')
 const socket = io();
 
 const redirectFunction=(lien)=>{
@@ -148,6 +149,12 @@ waCall.addEventListener('click',function(){
 normalCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
     window.open(`tel:${phoneNumber}`)
+})
+recherche.addEventListener('keyup',function(e){
+    if(e.key==='space'){
+        console.log(e.currentTarget.value)
+        location.href(`/eleves/list?studentName=${e.currentTarget.value}`)
+    }
 })
 // io event listening
 socket.on('onFarAway',(data)=>{
