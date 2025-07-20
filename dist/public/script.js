@@ -151,7 +151,7 @@ normalCall.addEventListener('click',function(){
     window.open(`tel:${phoneNumber}`)
 })
 recherche.addEventListener('keyup',function(e){
-    if(e.key==='space'){
+    if(e.key==='enter'){
         console.log(e.currentTarget.value)
         location.href(`/eleves/list?studentName=${e.currentTarget.value}`)
     }
