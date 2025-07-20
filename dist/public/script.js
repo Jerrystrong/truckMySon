@@ -152,9 +152,9 @@ normalCall.addEventListener('click',function(){
 })
 recherche.addEventListener('keyup',function(e){
     console.log(e.key)
-    if(e.key==='enter'){
+    if(e.key==='Enter'){
         console.log(e.currentTarget.value)
-        location.href(`/eleves/list?studentName=${e.currentTarget.value}`)
+        location.replace(`/eleves/list?studentName=${e.currentTarget.value}`)
     }
 })
 // io event listening

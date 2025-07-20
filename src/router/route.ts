@@ -176,7 +176,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
             // console.log('teacher')
             // console.log(teacher)
-            if(distance>=1){
+            if(distance>=0.1){
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance} de l'école`,
                     noms: `${student?.studentName} ${student?.studentLastname}`,
