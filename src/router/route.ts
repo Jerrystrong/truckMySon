@@ -185,8 +185,9 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
             const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
             // console.log('teacher')
-            console.log(teacher)
+            // console.log(teacher)
             if(distance>=0.1){
+                console.log('events time')
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance} de l'école`,
                     noms: `${student?.studentName} ${student?.studentLastname}`,
