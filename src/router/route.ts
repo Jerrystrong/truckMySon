@@ -119,6 +119,15 @@ router.get('/teacher-password/complet-login',(req:Request,res:Response)=>{
         res.redirect('/login')
     }
 })
+router.get('/notivation',async(req:Request,res:Response)=>{
+    if(req.session.user){
+        const user=await Teacher.findById(req.session.user.teacherId)
+        const notification=user?.notification
+        res.render('notification.ejs',{user:req.session.user,notification})
+    }else{
+        res.redirect('/login')
+    }
+})
 router.post('/login',async(req:Request,res:Response)=>{
     const {userEmail}=req.body
     const teacher=await Teacher.findOne({teacherEmail:userEmail})
@@ -175,7 +184,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
             const teacher=await Teacher.findOne({teacherClasseIdentifiant:student?.studentClasseIdentnifiant})
             // console.log('teacher')
-            // console.log(teacher)
+            console.log(teacher)
             if(distance>=0.1){
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance} de l'école`,
@@ -183,7 +192,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
                     parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
                 })
                 if(teacher){
-                    teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance} de l'école`])
+                    teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance} de l'école`,`${new Date().toLocaleDateString()}`,`${student?.studentPhone}`])
                     await teacher.save()
                 }
             }

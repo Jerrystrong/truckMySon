@@ -138,6 +138,16 @@ router.get('/teacher-password/complet-login', (req, res) => {
         res.redirect('/login');
     }
 });
+router.get('/notivation', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (req.session.user) {
+        const user = yield teacher_model_1.Teacher.findById(req.session.user.teacherId);
+        const notification = user === null || user === void 0 ? void 0 : user.notification;
+        res.render('notification.ejs', { user: req.session.user, notification });
+    }
+    else {
+        res.redirect('/login');
+    }
+}));
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userEmail } = req.body;
     const teacher = yield teacher_model_1.Teacher.findOne({ teacherEmail: userEmail });
@@ -198,7 +208,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             // console.log(getDistanceFromLatLonInKm(-4.32,15.29,48.85,2.35))
             const teacher = yield teacher_model_1.Teacher.findOne({ teacherClasseIdentifiant: student === null || student === void 0 ? void 0 : student.studentClasseIdentnifiant });
             // console.log('teacher')
-            // console.log(teacher)
+            console.log(teacher);
             if (distance >= 0.1) {
                 __1.io.emit('onFarAway', {
                     message: `l'élève est éloigné de ${distance} de l'école`,
@@ -206,7 +216,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                     parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
                 });
                 if (teacher) {
-                    teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance} de l'école`]);
+                    teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance} de l'école`, `${new Date().toLocaleDateString()}`, `${student === null || student === void 0 ? void 0 : student.studentPhone}`]);
                     yield teacher.save();
                 }
             }
