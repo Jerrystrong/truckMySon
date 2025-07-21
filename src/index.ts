@@ -11,6 +11,9 @@ connectionDb()
 const Port=process.env.PORT||3003
 io.on('connect',(socket)=>{
     console.log('user connected')
+    socket.on('userLocation',(data)=>{
+        console.log(data)
+    })
 })
 
 mongoose.connection.on('open',()=>{
