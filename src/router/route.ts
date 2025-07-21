@@ -169,6 +169,7 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
         }
     }
 })
+io.emit('essaie',true)
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body
@@ -203,7 +204,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
                 const dateString = date.toISOString().split('T')[0];
                 const prensence= new Presence({
                     studentName:`${student?.studentName} ${student?.studentLastname}`,
-                    heure:`${date.getHours()}: ${date.getMinutes()}`,
+                    heure:`${date.getHours()+1}: ${date.getMinutes()}`,
                     getDate:date.getTime(),
                     teacher:teacher?._id,
                     dateString

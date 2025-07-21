@@ -193,6 +193,7 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
         }
     }
 }));
+__1.io.emit('essaie', true);
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
     const { token } = req.body;
@@ -227,7 +228,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                 const dateString = date.toISOString().split('T')[0];
                 const prensence = new presence_model_1.Presence({
                     studentName: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
-                    heure: `${date.getHours()}: ${date.getMinutes()}`,
+                    heure: `${date.getHours() + 1}: ${date.getMinutes()}`,
                     getDate: date.getTime(),
                     teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id,
                     dateString

@@ -4,6 +4,30 @@ const normalCall=document.getElementById('normal-call')
 const setAdmin=document.getElementById('setAdmin')
 const recherche=document.getElementById('recherche')
 const socket = io();
+// io event listening
+socket.on('onFarAway',(data)=>{
+    console.log(data)
+    const notificationCount=document.querySelector('#notificationCount')
+    const studentFar=document.querySelector('#studentFar')
+    const count=parseInt(notificationCount.textContent.trim())
+    notificationCount.textContent=`${count+1}`
+    studentFar.innerHTML=studentFar.innerHTML+`
+     <div class="flex flex-col gap-5">
+        <h1 class="text-[24px]">${data.message}</h1>
+        <p>${data.noms}</p>
+        <p>Appeler les parent</p>
+     </div>   
+    `
+})
+// check socket
+socket.on('presence',(data)=>{
+    console.log(data)
+})
+socket.on('essaie',(data)=>{
+    console.log(data)
+    console.log('essaie passe')
+})
+
 
 const redirectFunction=(lien)=>{
     location.replace(lien)
@@ -25,6 +49,7 @@ const setAminFunction = async(email,name)=>{
         const data = await response.json();
         if (response.ok) {
             console.log('Succès :', data);
+            alert("Mise en jour reussi avec success")
             return data;
         } else {
             console.error('Erreur côté serveur :', data.message || data);
@@ -159,22 +184,4 @@ recherche.addEventListener('keyup',function(e){
         console.log(e.currentTarget.value)
         location.replace(`/eleves/list?studentName=${e.currentTarget.value}`)
     }
-})
-// io event listening
-socket.on('onFarAway',(data)=>{
-    console.log(data)
-    const notificationCount=document.querySelector('#notificationCount')
-    const studentFar=document.querySelector('#studentFar')
-    const count=parseInt(notificationCount.textContent.trim())
-    notificationCount.textContent=`${count+1}`
-    studentFar.innerHTML=studentFar.innerHTML+`
-     <div class="flex flex-col gap-5">
-        <h1 class="text-[24px]">${data.message}</h1>
-        <p>${data.noms}</p>
-        <p>Appeler les parent</p>
-     </div>   
-    `
-})
-socket.on('presence',(data)=>{
-    console.log(data)
 })
