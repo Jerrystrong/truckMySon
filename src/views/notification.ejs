@@ -100,8 +100,10 @@
                                 <div>
                                     <h1 class="text-slate-700"><%= notification[i][0] %></h1>
                                     <p class="text-slate-800 text-[14px]"><%= notification[i][1] %></p>
-                                    <% const date=notification[i][3]?notification[i][3]:' la date imprecu'%>
+                                    <% const date=notification[i][2]?notification[i][2]:' la date imprecu'%>
                                     <p class="text-slate-800 text-[14px]">Date:<%= date %></p>
+
+                                    <button class="bg-slate-700 rounded-lg py-1 px-2" onclick="callNormal(`+<%=notification[3]%>`)">Appeler son tuteur</button>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <button class="text-[12px] text-slate-700">Marquer comme vu</button>

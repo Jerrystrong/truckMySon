@@ -146,6 +146,9 @@ waCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
     window.open(`whatsapp://send?phone=${phoneNumber}`)
 })
+const callNormal=(phoneNumber)=>{
+    window.open(`whatsapp://send?phone=${phoneNumber}`)
+}
 normalCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
     window.open(`tel:${phoneNumber}`)
