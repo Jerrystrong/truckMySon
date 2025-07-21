@@ -13,7 +13,7 @@ import path from "path";
 import { School } from "../model/school.model";
 import { generateToken, verifyToken } from '../utils/token.util';
 import { getDistanceFromLatLonInKm } from "../utils/getDistance";
-import { io } from "..";
+import { io } from "../index";
 import { Presence } from "../model/presence.model";
 
 const upload=multer({dest:path.join(__dirname,'../../upload')})
@@ -68,6 +68,7 @@ router.get('/',isAuthentified,async(req:Request,res:Response)=>{
     const student=await Student.find({teacherId:req.session.user.teacherId})
     const adStudent=await Student.find({})
     const classes=await Class.find({})
+    io.emit('essaie',true)
     res.render('index.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],student:student[student.length-1],students:student,teachers:teacher,adStudent,classes})
 })
 router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
@@ -169,7 +170,6 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
         }
     }
 })
-io.emit('essaie',true)
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body

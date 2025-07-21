@@ -27,7 +27,7 @@ const path_1 = __importDefault(require("path"));
 const school_model_1 = require("../model/school.model");
 const token_util_1 = require("../utils/token.util");
 const getDistance_1 = require("../utils/getDistance");
-const __1 = require("..");
+const index_1 = require("../index");
 const presence_model_1 = require("../model/presence.model");
 const upload = (0, multer_1.default)({ dest: path_1.default.join(__dirname, '../../upload') });
 const router = (0, express_1.Router)();
@@ -84,6 +84,7 @@ router.get('/', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0,
     const student = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
     const adStudent = yield student_model_1.Student.find({});
     const classes = yield class_model_1.Class.find({});
+    index_1.io.emit('essaie', true);
     res.render('index.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], student: student[student.length - 1], students: student, teachers: teacher, adStudent, classes });
 }));
 router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -193,7 +194,6 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
         }
     }
 }));
-__1.io.emit('essaie', true);
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
     const { token } = req.body;
@@ -212,7 +212,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             // console.log(teacher)
             if (distance >= 0.1) {
                 console.log('events time');
-                __1.io.emit('onFarAway', {
+                index_1.io.emit('onFarAway', {
                     message: `l'élève est éloigné de ${distance} de l'école`,
                     noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
                     parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
@@ -222,7 +222,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                     yield teacher.save();
                 }
             }
-            __1.io.emit('presence', { noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
+            index_1.io.emit('presence', { noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
                 parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : '', time: new Date() });
             const date = new Date();
             if (teacher) {

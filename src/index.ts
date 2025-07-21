@@ -6,7 +6,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 
 const server=createServer(app)
-const io=new Server(server)
+const io=new Server(server, {
+  cors: { origin: "*" }
+});
 connectionDb()
 const Port=process.env.PORT||3003
 io.on('connect',(socket)=>{
