@@ -63,11 +63,15 @@ router.post('/api/set-admin', (req, res) => __awaiter(void 0, void 0, void 0, fu
     data.adminPassword = pw;
     if (data.adminEmail) {
         try {
-            const admin = new admin_model_1.Admin(data);
+            const admin = new admin_model_1.Admin({ adminName: data.adminName, adminEmail: data.adminEmail, adminPassword: data.adminPassword });
             yield admin.save();
+            const teacher = yield teacher_model_1.Teacher.findOne({ teacherIdentifiant: data.identifiant });
             if (admin.adminEmail) {
-                yield (0, sendConfirmMail_1.confirmMail)(admin.adminEmail, pw, 'Code de verification');
-                res.status(200).json({ success: true, passWord: pw });
+                if (teacher) {
+                    teacher.adminId = admin._id;
+                    yield (0, sendConfirmMail_1.confirmMail)(admin.adminEmail, pw, 'Code Admin');
+                    res.status(200).json({ success: true, passWord: pw });
+                }
             }
         }
         catch (err) {
@@ -84,7 +88,9 @@ router.get('/', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0,
     const student = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
     const adStudent = yield student_model_1.Student.find({});
     const classes = yield class_model_1.Class.find({});
-    index_1.io.emit('essaie', true);
+    setTimeout(() => {
+        index_1.io.emit('essaie', true);
+    }, 1000);
     res.render('index.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], student: student[student.length - 1], students: student, teachers: teacher, adStudent, classes });
 }));
 router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -143,7 +149,8 @@ router.get('/notivation', (req, res) => __awaiter(void 0, void 0, void 0, functi
     if (req.session.user) {
         const user = yield teacher_model_1.Teacher.findById(req.session.user.teacherId);
         const notification = user === null || user === void 0 ? void 0 : user.notification;
-        res.render('notification.ejs', { user: req.session.user, notification });
+        const currentDate = new Date().toLocaleDateString();
+        res.render('notification.ejs', { user: req.session.user, notification, currentDate });
     }
     else {
         res.redirect('/login');

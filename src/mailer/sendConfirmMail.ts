@@ -3,6 +3,7 @@ import { transporter } from "./transporter"
 
 const confirmMail=async (destinateur:string,code:string,title:string)=>{
     try{
+        const link='<a href="https://truckmyson.onrender.com/teacher-password/complet-login">Cliqué ici</a>'
         const message=await transporter.sendMail({
             from:'Team gestion Eleve <supportgestion@gmail.com>',
             to:destinateur,
@@ -13,7 +14,7 @@ const confirmMail=async (destinateur:string,code:string,title:string)=>{
                     <div style="background-color:#7AC6D2;color:#fefefe;padding:10px;width:fit-content;border-radius:10px">
                         ${code}
                     </div>
-                    <p>Ou <a href="http://localhost:3003/teacher-password/complet-login">Cliqué ici</a></p>
+                    <p>Ou ${code==='Code de verification'?link:''}</p>
                 </div>`
         })
     }catch(err){

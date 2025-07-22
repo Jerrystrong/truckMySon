@@ -10,7 +10,7 @@
                         <svg width="64px" height="64px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#fefefe" stroke="#fefefe" class="w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus-circle</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set" sketch:type="MSLayerGroup" transform="translate(-464.000000, -1087.000000)" fill="#fefefe"> <path d="M480,1117 C472.268,1117 466,1110.73 466,1103 C466,1095.27 472.268,1089 480,1089 C487.732,1089 494,1095.27 494,1103 C494,1110.73 487.732,1117 480,1117 L480,1117 Z M480,1087 C471.163,1087 464,1094.16 464,1103 C464,1111.84 471.163,1119 480,1119 C488.837,1119 496,1111.84 496,1103 C496,1094.16 488.837,1087 480,1087 L480,1087 Z M486,1102 L481,1102 L481,1097 C481,1096.45 480.553,1096 480,1096 C479.447,1096 479,1096.45 479,1097 L479,1102 L474,1102 C473.447,1102 473,1102.45 473,1103 C473,1103.55 473.447,1104 474,1104 L479,1104 L479,1109 C479,1109.55 479.447,1110 480,1110 C480.553,1110 481,1109.55 481,1109 L481,1104 L486,1104 C486.553,1104 487,1103.55 487,1103 C487,1102.45 486.553,1102 486,1102 L486,1102 Z" id="plus-circle" sketch:type="MSShapeGroup"> </path> </g> </g> </g></svg>
                         Ajouter un enseignant
                     </button>
-                    <a href="" class="text-slate-50 text-[16px] bg-slate-700 py-1 rounded-lg flex items-center gap-2 px-4">
+                    <a href="/" class="text-slate-50 text-[16px] bg-slate-700 py-1 rounded-lg flex items-center gap-2 px-4">
                         <svg width="64px" height="64px" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="" class="stroke-slate-50 w-[20px] h-[20px]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M1 6V15H6V11C6 9.89543 6.89543 9 8 9C9.10457 9 10 9.89543 10 11V15H15V6L8 0L1 6Z" fill=""></path> </g></svg>
                         Dashboard
                     </a>
@@ -96,13 +96,25 @@
                     <div class="flex flex-col gap-2">
                         <!-- <%= notification[0] %> -->
                          <% for(let i=0;i<notification.length; i++){ %>
-                            <div class="bg-slate-800/20 p-2 flex justify-between">
+                            <% const date = notification[i][2] ? notification[i][2] : 'la date imprecu'; %>
+                            <% const cDate = currentDate.split('/') %>
+                            <%
+                            const dSplit = date.split('/');
+                            const pastOrnot = (
+                                (dSplit[0] < cDate[0] && dSplit[1] == cDate[1]) ||
+                                (dSplit[1] < cDate[1])
+                            ) ? 'bg-slate-800/20' : 'bg-slate-800/30';
+                            %>
+
+                            <div class="<%= pastOrnot %> p-2 flex justify-between relative">
+                                <% if(pastOrnot === 'bg-slate-800/30'){%>
+                                    <small class="absolute bg-slate-700 text-slate-50 rounded-full p-1 right-0 -top-2">notification passée</small>
+                                <%}%>
                                 <div>
                                     <h1 class="text-slate-700"><%= notification[i][0] %></h1>
                                     <p class="text-slate-800 text-[14px]"><%= notification[i][1] %></p>
-                                    <% const date=notification[i][2]?notification[i][2]:' la date imprecu'%>
                                     <div class="flex flex-col gap-2 mt-3">
-                                        <p class="text-slate-800 text-[12px] text-slate-800">Le<%= date %></p>
+                                        <p class="text-slate-800 text-[12px] text-slate-800">Le <%= date %></p>
                                         <button class="bg-slate-700 rounded-lg py-1 px-2 text-slate-50 text-[14px]" onclick="callNormal(`+<%=notification[3]%>`)">Appeler son tuteur</button>
                                     </div>
                                 </div>

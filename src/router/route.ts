@@ -47,11 +47,15 @@ router.post('/api/set-admin',async(req:Request,res:Response)=>{
     data.adminPassword=pw
     if(data.adminEmail){
         try{
-            const admin = new Admin(data)
+            const admin = new Admin({adminName:data.adminName,adminEmail:data.adminEmail,adminPassword:data.adminPassword})
             await admin.save()
+            const teacher= await Teacher.findOne({teacherIdentifiant:data.identifiant})
             if(admin.adminEmail){
-                await confirmMail(admin.adminEmail, pw,'Code de verification')
-                res.status(200).json({success:true,passWord:pw})
+                if(teacher){
+                    teacher.adminId = admin._id
+                    await confirmMail(admin.adminEmail, pw,'Code Admin')
+                    res.status(200).json({success:true,passWord:pw})
+                }
             }
         }catch(err:unknown){
             if(err && err instanceof Error){
@@ -68,7 +72,9 @@ router.get('/',isAuthentified,async(req:Request,res:Response)=>{
     const student=await Student.find({teacherId:req.session.user.teacherId})
     const adStudent=await Student.find({})
     const classes=await Class.find({})
-    io.emit('essaie',true)
+    setTimeout(()=>{
+        io.emit('essaie',true)
+    },1000)
     res.render('index.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],student:student[student.length-1],students:student,teachers:teacher,adStudent,classes})
 })
 router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
@@ -124,7 +130,8 @@ router.get('/notivation',async(req:Request,res:Response)=>{
     if(req.session.user){
         const user=await Teacher.findById(req.session.user.teacherId)
         const notification=user?.notification
-        res.render('notification.ejs',{user:req.session.user,notification})
+        const currentDate=new Date().toLocaleDateString()
+        res.render('notification.ejs',{user:req.session.user,notification,currentDate})
     }else{
         res.redirect('/login')
     }

@@ -32,13 +32,15 @@ socket.on('essaie',(data)=>{
 const redirectFunction=(lien)=>{
     location.replace(lien)
 }
-const setAminFunction = async(email,name)=>{
+const setAminFunction = async(email,name,identifiant)=>{
     console.log(email)
     const adminData={
         adminName:name,
-        adminEmail:email
+        adminEmail:email,
+        identifiant:identifiant
     }
     try {
+        // https://truckmyson.onrender.com
         const response = await fetch('https://truckmyson.onrender.com/api/set-admin', {
         method: 'POST',
         headers: {
@@ -49,7 +51,10 @@ const setAminFunction = async(email,name)=>{
         const data = await response.json();
         if (response.ok) {
             console.log('Succès :', data);
-            alert("Mise en jour reussi avec success")
+            alert(`Mise en jour reussi avec success, mot de passe : ${data.passWord}`)
+            const setAdmin=document.querySelector('#setAdmin')
+            setAdmin.setAttribute('disabled','true')
+            setAdmin.textContent='Admin'
             return data;
         } else {
             console.error('Erreur côté serveur :', data.message || data);
@@ -82,7 +87,7 @@ const setPoupop=(userInfo)=>{
     })
     // console.log(infoUser)
     poopopContainer.innerHTML=poopopContainer.innerHTML+`
-        <button class="text-slate-700/50 text-[14px] mt-5 hover:text-slate-800 cursor-pointer flex justify-start" id="setAdmin" onclick="setAminFunction('${Object.entries(infoUser[7])[0][1]}',',${Object.entries(infoUser[1])[0][1]}')">Rendre admin</button>
+        <button class="text-slate-700/50 text-[14px] mt-5 hover:text-slate-800 cursor-pointer flex justify-start" id="setAdmin" onclick="setAminFunction('${Object.entries(infoUser[7])[0][1]}','${Object.entries(infoUser[1])[0][1]} ${Object.entries(infoUser[2])[0][1]} ${Object.entries(infoUser[3])[0][1]}','${Object.entries(infoUser[0])[0][1]}')">Rendre admin</button>
     `
     // infoUser.map((info)=>{console.log(Object.entries(info))})
 }

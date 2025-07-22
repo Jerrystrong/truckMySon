@@ -13,6 +13,7 @@ exports.confirmMail = void 0;
 const transporter_1 = require("./transporter");
 const confirmMail = (destinateur, code, title) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const link = '<a href="https://truckmyson.onrender.com/teacher-password/complet-login">Cliqué ici</a>';
         const message = yield transporter_1.transporter.sendMail({
             from: 'Team gestion Eleve <supportgestion@gmail.com>',
             to: destinateur,
@@ -23,7 +24,7 @@ const confirmMail = (destinateur, code, title) => __awaiter(void 0, void 0, void
                     <div style="background-color:#7AC6D2;color:#fefefe;padding:10px;width:fit-content;border-radius:10px">
                         ${code}
                     </div>
-                    <p>Ou <a href="http://localhost:3003/teacher-password/complet-login">Cliqué ici</a></p>
+                    <p>Ou ${code === 'Code de verification' ? link : ''}</p>
                 </div>`
         });
     }
