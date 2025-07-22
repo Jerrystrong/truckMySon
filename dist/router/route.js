@@ -69,6 +69,7 @@ router.post('/api/set-admin', (req, res) => __awaiter(void 0, void 0, void 0, fu
             if (admin.adminEmail) {
                 if (teacher) {
                     teacher.adminId = admin._id;
+                    yield teacher.save();
                     yield (0, sendConfirmMail_1.confirmMail)(admin.adminEmail, pw, 'Code Admin');
                     res.status(200).json({ success: true, passWord: pw });
                 }
@@ -311,6 +312,26 @@ router.post('/teacher-password/complet-login', (req, res) => __awaiter(void 0, v
     }
     catch (err) {
         console.log(err);
+    }
+}));
+router.get('/admin/as-teacher', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userEmail } = req.query;
+    const teacher = yield teacher_model_1.Teacher.findOne({ teacherEmail: userEmail });
+    console.log(userEmail);
+    // not admin => confirm password by email
+    const code = (0, generateCodeR_1.generateCode)();
+    if (teacher) {
+        teacher.confirmCode = code;
+        teacher.codeExpiretion = new Date().getTime() + 5 * 60 * 1000;
+        yield teacher.save();
+        if (typeof teacher.teacherEmail === 'string') {
+            yield (0, sendConfirmMail_1.confirmMail)(teacher.teacherEmail, code, 'Code de verification');
+            req.session.user = { teacherId: teacher === null || teacher === void 0 ? void 0 : teacher._id, email: teacher === null || teacher === void 0 ? void 0 : teacher.teacherEmail };
+            res.redirect('/teacher-password/complet-login');
+        }
+        else {
+            throw new Error('Teacher email is missing or invalid');
+        }
     }
 }));
 router.get('/logout', (req, res) => {

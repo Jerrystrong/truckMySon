@@ -50,9 +50,10 @@ router.post('/api/set-admin',async(req:Request,res:Response)=>{
             const admin = new Admin({adminName:data.adminName,adminEmail:data.adminEmail,adminPassword:data.adminPassword})
             await admin.save()
             const teacher= await Teacher.findOne({teacherIdentifiant:data.identifiant})
-            if(admin.adminEmail){
+            if(admin.adminEmail){   
                 if(teacher){
                     teacher.adminId = admin._id
+                    await teacher.save()
                     await confirmMail(admin.adminEmail, pw,'Code Admin')
                     res.status(200).json({success:true,passWord:pw})
                 }
@@ -283,6 +284,25 @@ router.post('/teacher-password/complet-login',async(req:Request,res:Response)=>{
     }catch(err){
         console.log(err)
     }
+})
+router.get('/admin/as-teacher',async(req:Request,res:Response)=>{
+    const {userEmail}=req.query
+     const teacher=await Teacher.findOne({teacherEmail:userEmail})
+     console.log(userEmail)
+        // not admin => confirm password by email
+        const code=generateCode()
+        if (teacher) {
+            teacher.confirmCode = code;
+            teacher.codeExpiretion=new Date().getTime()+5*60*1000
+            await teacher.save()
+            if (typeof teacher.teacherEmail === 'string') {
+                await confirmMail(teacher.teacherEmail, code,'Code de verification')
+                req.session.user={teacherId:teacher?._id,email:teacher?.teacherEmail}
+                res.redirect('/teacher-password/complet-login')
+            } else {
+                throw new Error('Teacher email is missing or invalid')
+            }
+        }
 })
 router.get('/logout',(req:Request,res:Response)=>{
     req.session.destroy(err => {
