@@ -15,12 +15,12 @@
             <h1 class="text-2xl font-dosis">Paramettre</h1>
             <div class="border border-slate-700 rounded-md flex gap-5 p-2 items-center relative" style="box-shadow: 1px 10px 1px #334155;">
                 <div class="absolute -top-5 -right-5 bg-amber-300 text-amber-50 px-3 py-1 rounded-full text-[14px] flex">Admin</div>
-                <div>
-                    <img src="/coupeProfJey.png" alt="" class="w-[50px] h-[50px] rounded-full">
+                <div class="w-[50px] h-[50px] rounded-full bg-amber-100 block">
+                    <!-- <img src="/coupeProfJey.png" alt="" class="w-[50px] h-[50px] rounded-full"> -->
                 </div>
                 <div>
-                    <h1>Jeremie KIMPIOKA TANDU</h1>
-                    <p class="text-slate-700/70 text-[14px]">jeremiekimpioka52@gmail.com</p>
+                    <h1><%= user.userName%></h1>
+                    <p class="text-slate-700/70 text-[14px]"><%= user.email%></p>
                 </div>
             </div>
             <form method="post" class="grid gap-3" id="formModife">
@@ -29,7 +29,7 @@
                     <small>Nom de l'école</small>
                     <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
                     <!-- <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" > -->
-                     <% if(school.schoolName){ %>
+                     <% if(school){ %>
                         <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" readonly value="<%= school.schoolName %>">
                     <% }else{%>
                         <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" >
@@ -40,7 +40,7 @@
                 <div class="border border-slate-700 h-fit w-[300px] rounded-md py-1 px-3 flex flex-col">
                     <small>Localisation de l'école</small>
                     <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
-                     <% if(school.schoolLocationString){ %>
+                     <% if(school){ %>
                         <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" readonly value="<%= school.schoolLocationString %>">
                     <% }else{%>
                         <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrez la localisation" name="schoolLocation" id="schoolLocation" >
@@ -50,8 +50,8 @@
                     
                 </div>
                 <div>
-                    <% if(school.schoolLocationString && school.schoolName){ %>
-                        <button type="button" class="bg-red-500/90 p-2 px-4 text-red-700 rounded-md"><i class="fa-solid fa-rotate" class="deleteAllinfo"></i></button>
+                    <% if(school){ %>
+                        <button type="button" class="bg-red-500/90 p-2 px-4 text-red-700 rounded-md"><i class="fa-solid fa-rotate" id="deleteAllinfo"></i></button>
                         <button class="w-[250px] text-slate-50 bg-slate-700/50 py-2 rounded-md" disabled>Modifier</button>
                     <% }else{%>
                         <button class="w-[300px] text-slate-50 bg-slate-700 py-2 rounded-md" type="submit">Modifier</button>
@@ -114,6 +114,7 @@
         }
         const formModife=document.querySelector('#formModife')
         const deleteAllinfo=document.querySelector('#deleteAllinfo')
+        
         // console.log(formModife)
         formModife.addEventListener('submit',async function(e){
             e.preventDefault()
@@ -137,13 +138,8 @@
                 console.log(data.message)
             }
         })
-        
-        const closeSuccess=()=>{
-            const successCont=document.querySelector('#successCont')
-            successCont.classList.add('hidden')
-            successCont.classList.remove('flex')
-        }
         deleteAllinfo.addEventListener('click',async()=>{
+            console.log('delete')
             const fetchD=await fetch('/delete/school')
             const data=await fetchD.json()
             if(data.success){
@@ -153,6 +149,13 @@
                 console.log(data.message)
             }
         })
+        
+        const closeSuccess=()=>{
+            const successCont=document.querySelector('#successCont')
+            successCont.classList.add('hidden')
+            successCont.classList.remove('flex')
+        }
+        
         </script>
     </body>
 </html>
