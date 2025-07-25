@@ -249,8 +249,8 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             const date = new Date();
             if (teacher) {
                 const dateString = date.toISOString().split('T')[0];
-                const presence = yield presence_model_1.Presence.findOne({ dateString });
-                if (presence) {
+                const presenceCheck = yield presence_model_1.Presence.findOne({ dateString });
+                if (presenceCheck) {
                     res.json({ success: true, distance: distance });
                 }
                 else {

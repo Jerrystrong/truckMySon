@@ -225,8 +225,8 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             const date=new Date()
             if(teacher){
                 const dateString = date.toISOString().split('T')[0];
-                const presence=await Presence.findOne({dateString})
-                if(presence){
+                const presenceCheck=await Presence.findOne({dateString})
+                if(presenceCheck){
                     res.json({success:true,distance:distance})
                 }else{
                     const prensence= new Presence({
