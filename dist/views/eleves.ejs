@@ -189,7 +189,7 @@
                                     <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-regular fa-note-sticky"></i>
                                     </div>
-                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer" onclick="phoneCall('<%= user.phoneParent %>')">
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer" onclick="phoneCall(window.open('tel:<%= user.phoneParent %>'))">
                                         <i class="fa-solid fa-phone"></i>
                                     </div>
                                     <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
