@@ -114,7 +114,7 @@ router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __await
 router.get('/eleves', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teacher = yield teacher_model_1.Teacher.findById(req.session.user.teacherId);
     const dateString = new Date().toISOString().split('T')[0];
-    const presence = yield presence_model_1.Presence.find({ dateString, teacher: req.session.user.teacherId });
+    const presence = yield presence_model_1.Presence.find({ dateString, teacher: req.session.user.teacherId }).sort({ createAt: -1 });
     console.log(presence);
     res.render('eleves.ejs', { user: req.session.user, teacher, presence });
 }));

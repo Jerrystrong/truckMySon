@@ -446,6 +446,9 @@
   .justify-start {
     justify-content: flex-start;
   }
+  .gap-1 {
+    gap: calc(var(--spacing) * 1);
+  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -881,6 +884,9 @@
   }
   .text-slate-50 {
     color: var(--color-slate-50);
+  }
+  .text-slate-100 {
+    color: var(--color-slate-100);
   }
   .text-slate-500 {
     color: var(--color-slate-500);

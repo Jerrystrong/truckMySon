@@ -98,7 +98,7 @@ router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
 router.get('/eleves',isAuthentified,async(req:Request,res:Response)=>{
     const teacher=await Teacher.findById(req.session.user.teacherId)
     const dateString = new Date().toISOString().split('T')[0];
-    const presence=await Presence.find({dateString,teacher:req.session.user.teacherId})
+    const presence=await Presence.find({dateString,teacher:req.session.user.teacherId}).sort({createAt: -1 })
     console.log(presence)
     res.render('eleves.ejs',{user:req.session.user,teacher,presence})
 })

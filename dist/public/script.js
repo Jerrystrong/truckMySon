@@ -16,9 +16,9 @@ socket.on('onFarAway',(data)=>{
     notificationCount.textContent=`${count+1}`
     studentFar.innerHTML=studentFar.innerHTML+`
      <div class="flex flex-col gap-3 bg-slate-700/70 w-[300px] rounded-md p-2">
-        <h1 class="text-[24px] bg-slate-50">${data.message}</h1>
-        <p class="bg-slate-100">${data.noms}</p>
-        <p class="bg-slate-50 px-2 py-1 rounded-md text-slate-700" onclick="callNormal('${data.parentPhone}')"><i class="fa-brands fa-whatsapp"></i> Appeler les parent</p>
+        <h1 class="text-[24px] text-slate-50">${data.message}</h1>
+        <p class="text-slate-100">${data.noms}</p>
+        <p class="bg-slate-50 px-2 py-1 rounded-md text-slate-700" onclick="callNormal('${data.parentPhone}')flex justify-center gap-1"><i class="fa-brands fa-whatsapp"></i> Appeler les parent</p>
      </div>   
     `
 })
