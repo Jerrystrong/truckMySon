@@ -39,6 +39,19 @@ router.post('/add/school/data',async (req:Request,res:Response)=>{
         console.log('schoolLocation manquant')
     }
 })
+router.get('/delete/school',async(req:Request,res:Response)=>{
+   try {
+    await School.deleteMany();
+    res.json({ success: true, message: 'Toutes les écoles ont été supprimées.' });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error(err.message);
+        res.status(500).json({ success: false, message: err.message });
+    }
+    res.status(500).json({ success: false, message: 'Erreur inconnue' });
+  }
+});
+
 // rendre un enseignant admin
 router.post('/api/set-admin',async(req:Request,res:Response)=>{
     const data=req.body
@@ -107,8 +120,9 @@ router.get('/eleves/list',isAuthentified,async(req:Request,res:Response)=>{
         return res.render('studentListe.ejs',{user:req.session.user,students});
     }
 })
-router.get('/parameter',isAuthentified,(req:Request,res:Response)=>{
-    res.render('parameter.ejs',{user:req.session.user})
+router.get('/parameter',isAuthentified,async(req:Request,res:Response)=>{
+    const school=await School.findOne({})
+    res.render('parameter.ejs',{user:req.session.user,school})
 })
 router.get('/login',(req:Request,res:Response)=>{
     res.render('login.ejs')

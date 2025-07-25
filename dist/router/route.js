@@ -55,6 +55,19 @@ router.post('/add/school/data', (req, res) => __awaiter(void 0, void 0, void 0, 
         console.log('schoolLocation manquant');
     }
 }));
+router.get('/delete/school', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield school_model_1.School.deleteMany();
+        res.json({ success: true, message: 'Toutes les écoles ont été supprimées.' });
+    }
+    catch (err) {
+        if (err instanceof Error) {
+            console.error(err.message);
+            res.status(500).json({ success: false, message: err.message });
+        }
+        res.status(500).json({ success: false, message: 'Erreur inconnue' });
+    }
+}));
 // rendre un enseignant admin
 router.post('/api/set-admin', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = req.body;
@@ -124,9 +137,10 @@ router.get('/eleves/list', isAuthentified_1.isAuthentified, (req, res) => __awai
         return res.render('studentListe.ejs', { user: req.session.user, students });
     }
 }));
-router.get('/parameter', isAuthentified_1.isAuthentified, (req, res) => {
-    res.render('parameter.ejs', { user: req.session.user });
-});
+router.get('/parameter', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const school = yield school_model_1.School.findOne({});
+    res.render('parameter.ejs', { user: req.session.user, school });
+}));
 router.get('/login', (req, res) => {
     res.render('login.ejs');
 });

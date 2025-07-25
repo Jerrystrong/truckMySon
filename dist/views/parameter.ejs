@@ -28,17 +28,37 @@
                 <div class="border border-slate-700 h-[50px] w-[300px] rounded-md py-1 px-3 flex flex-col">
                     <small>Nom de l'école</small>
                     <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
-                    <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" >
+                    <!-- <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" > -->
+                     <% if(school.schoolName){ %>
+                        <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" readonly value="<%= school.schoolName %>">
+                    <% }else{%>
+                        <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" >
+                    <%}%>
+                     
                 </div>
 
                 <div class="border border-slate-700 h-fit w-[300px] rounded-md py-1 px-3 flex flex-col">
                     <small>Localisation de l'école</small>
                     <!-- <label class="text-slate-700">Jeremie KIMPIOKA</label> -->
-                    <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrez la localisation" name="schoolLocation" id="schoolLocation" >
-                    <p id="successCoordonate" class="text-green-500 text-[12px]"></p>
-                    <p class="text-slate-700 text-[14px] font-semibold mt-2 cursor-pointer" id="verifyCoordonnees"><i class="fa-solid fa-rotate"></i> Verifié les coordonnées</p>
+                     <% if(school.schoolLocationString){ %>
+                        <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrer le nom de l'ecole" name="schoolName" readonly value="<%= school.schoolLocationString %>">
+                    <% }else{%>
+                        <input type="text" class="text-slate-700 focus:border-0 focus:outline-0 placeholder:text-slate-700 text-[14px]" placeholder="Entrez la localisation" name="schoolLocation" id="schoolLocation" >
+                        <p id="successCoordonate" class="text-green-500 text-[12px]"></p>
+                        <p class="text-slate-700 text-[14px] font-semibold mt-2 cursor-pointer" id="verifyCoordonnees"><i class="fa-solid fa-rotate"></i> Verifié les coordonnées</p>
+                    <%}%>
+                    
                 </div>
-                <button class="text-slate-50 bg-slate-700 py-2 rounded-md" type="submit">Modifier</button>
+                <div>
+                    <% if(school.schoolLocationString && school.schoolName){ %>
+                        <button type="button" class="bg-red-500/90 p-2 px-4 text-red-700 rounded-md"><i class="fa-solid fa-rotate" class="deleteAllinfo"></i></button>
+                        <button class="w-[250px] text-slate-50 bg-slate-700/50 py-2 rounded-md" disabled>Modifier</button>
+                    <% }else{%>
+                        <button class="w-[300px] text-slate-50 bg-slate-700 py-2 rounded-md" type="submit">Modifier</button>
+                        <%}%>
+                        
+                    </div>
+                    <!-- <button class="w-[300px] text-slate-50 bg-slate-700 py-2 rounded-md" type="submit">Modifier</button> barumbu quartier funa avenue n°10 -->
             </form>
         </section>
 
@@ -69,7 +89,8 @@
         let schoolCoordonate=[]
         let schoolLocationString=''
         const verifyCoordonnees=document.querySelector('#verifyCoordonnees')
-        verifyCoordonnees.addEventListener('click',async(e)=>{
+        try{
+            verifyCoordonnees.addEventListener('click',async(e)=>{
             const schoolLocation=document.querySelector('#schoolLocation')
             const successCoordonate=document.querySelector('#successCoordonate')
             e.currentTarget.classList.add('animation-pulse')
@@ -87,7 +108,13 @@
                 schoolLocationString=schoolLocation.value
             }
         })
+        
+        }catch(err){
+            console.log(err)
+        }
         const formModife=document.querySelector('#formModife')
+        const deleteAllinfo=document.querySelector('#deleteAllinfo')
+        // console.log(formModife)
         formModife.addEventListener('submit',async function(e){
             e.preventDefault()
             const formD= new FormData(this)
@@ -110,11 +137,22 @@
                 console.log(data.message)
             }
         })
+        
         const closeSuccess=()=>{
             const successCont=document.querySelector('#successCont')
             successCont.classList.add('hidden')
             successCont.classList.remove('flex')
         }
-    </script>
+        deleteAllinfo.addEventListener('click',async()=>{
+            const fetchD=await fetch('/delete/school')
+            const data=await fetchD.json()
+            if(data.success){
+                successCont.classList.remove('hidden')
+                successCont.classList.add('flex')
+            }else{
+                console.log(data.message)
+            }
+        })
+        </script>
     </body>
 </html>
