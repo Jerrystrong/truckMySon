@@ -211,12 +211,12 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             if(distance>=0.1){
                 console.log('events time')
                 io.emit('onFarAway',{
-                    message: `l'élève est éloigné de ${distance} de l'école`,
+                    message: `l'élève est éloigné de ${distance}Km de l'école`,
                     noms: `${student?.studentName} ${student?.studentLastname}`,
                     parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
                 })
                 if(teacher){
-                    teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance} de l'école`,`${new Date().toLocaleDateString()}`,`${student?.studentPhone}`])
+                    teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance}Km de l'école`,`${new Date().toLocaleDateString()}`,`${student?.studentPhone}`])
                     await teacher.save()
                 }
             }
@@ -225,15 +225,20 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             const date=new Date()
             if(teacher){
                 const dateString = date.toISOString().split('T')[0];
-                const prensence= new Presence({
-                    studentName:`${student?.studentName} ${student?.studentLastname}`,
-                    heure:`${date.getHours()+1}: ${date.getMinutes()}`,
-                    getDate:date.getTime(),
-                    teacher:teacher?._id,
-                    dateString
-                })
-                await prensence.save()
-                res.json({success:true,distance:distance})
+                const presence=await Presence.findOne({dateString})
+                if(presence){
+                    res.json({success:true,distance:distance})
+                }else{
+                    const prensence= new Presence({
+                        studentName:`${student?.studentName} ${student?.studentLastname}`,
+                        heure:`${date.getHours()+1}: ${date.getMinutes()}`,
+                        getDate:date.getTime(),
+                        teacher:teacher?._id,
+                        dateString
+                    })
+                    await prensence.save()
+                    res.json({success:true,distance:distance})
+                } 
             }else{
                 res.json({success:true,distance:distance})
             }

@@ -235,12 +235,12 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             if (distance >= 0.1) {
                 console.log('events time');
                 index_1.io.emit('onFarAway', {
-                    message: `l'élève est éloigné de ${distance} de l'école`,
+                    message: `l'élève est éloigné de ${distance}Km de l'école`,
                     noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
                     parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
                 });
                 if (teacher) {
-                    teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance} de l'école`, `${new Date().toLocaleDateString()}`, `${student === null || student === void 0 ? void 0 : student.studentPhone}`]);
+                    teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance}Km de l'école`, `${new Date().toLocaleDateString()}`, `${student === null || student === void 0 ? void 0 : student.studentPhone}`]);
                     yield teacher.save();
                 }
             }
@@ -249,15 +249,21 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             const date = new Date();
             if (teacher) {
                 const dateString = date.toISOString().split('T')[0];
-                const prensence = new presence_model_1.Presence({
-                    studentName: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
-                    heure: `${date.getHours() + 1}: ${date.getMinutes()}`,
-                    getDate: date.getTime(),
-                    teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id,
-                    dateString
-                });
-                yield prensence.save();
-                res.json({ success: true, distance: distance });
+                const presence = yield presence_model_1.Presence.findOne({ dateString });
+                if (presence) {
+                    res.json({ success: true, distance: distance });
+                }
+                else {
+                    const prensence = new presence_model_1.Presence({
+                        studentName: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
+                        heure: `${date.getHours() + 1}: ${date.getMinutes()}`,
+                        getDate: date.getTime(),
+                        teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id,
+                        dateString
+                    });
+                    yield prensence.save();
+                    res.json({ success: true, distance: distance });
+                }
             }
             else {
                 res.json({ success: true, distance: distance });
