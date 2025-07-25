@@ -183,13 +183,13 @@
                                     </div>
                                     <!-- action -->
                                     <div class="p-2 bg-slate-700 rounded-lg flex gap-5 justify-between">
-                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
-                                        <i class="fa-regular fa-message"></i>
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer" onclick="callNormal('<%= user.phoneParent %>')">
+                                        <i class="fa-brands fa-whatsapp"></i>
                                     </div>
                                     <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
                                         <i class="fa-regular fa-note-sticky"></i>
                                     </div>
-                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">
+                                    <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer" onclick="phoneCall('<%= user.phoneParent %>')">
                                         <i class="fa-solid fa-phone"></i>
                                     </div>
                                     <div class="text-slate-50 flex flex-col text-[16px] items-center w-fit cursor-pointer">

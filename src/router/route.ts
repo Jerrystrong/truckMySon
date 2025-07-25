@@ -234,6 +234,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
                         heure:`${date.getHours()+1}: ${date.getMinutes()}`,
                         getDate:date.getTime(),
                         teacher:teacher?._id,
+                        phoneParent:student?.studentPhone,
                         dateString
                     })
                     await prensence.save()

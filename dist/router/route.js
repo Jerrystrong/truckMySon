@@ -259,6 +259,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                         heure: `${date.getHours() + 1}: ${date.getMinutes()}`,
                         getDate: date.getTime(),
                         teacher: teacher === null || teacher === void 0 ? void 0 : teacher._id,
+                        phoneParent: student === null || student === void 0 ? void 0 : student.studentPhone,
                         dateString
                     });
                     yield prensence.save();

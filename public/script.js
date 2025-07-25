@@ -5,6 +5,9 @@ const setAdmin=document.getElementById('setAdmin')
 const recherche=document.getElementById('recherche')
 const socket = io();
 // io event listening
+const callNormal=(phoneNumber)=>{
+    window.open(`whatsapp://send?phone=${phoneNumber}`)
+}
 socket.on('onFarAway',(data)=>{
     console.log(data)
     const notificationCount=document.querySelector('#notificationCount')
@@ -12,10 +15,10 @@ socket.on('onFarAway',(data)=>{
     const count=parseInt(notificationCount.textContent.trim())
     notificationCount.textContent=`${count+1}`
     studentFar.innerHTML=studentFar.innerHTML+`
-     <div class="flex flex-col gap-5">
-        <h1 class="text-[24px]">${data.message}</h1>
-        <p>${data.noms}</p>
-        <p>Appeler les parent</p>
+     <div class="flex flex-col gap-3 bg-slate-700/70 w-[300px] rounded-md">
+        <h1 class="text-[24px] bg-slate-50">${data.message}</h1>
+        <p class="bg-slate-100">${data.noms}</p>
+        <p class="bg-slate-50 px-2 py-1 rounded-md text-slate-700" onclick="callNormal('${data.parentPhone}')">Appeler les parent</p>
      </div>   
     `
 })
@@ -185,8 +188,9 @@ waCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
     window.open(`whatsapp://send?phone=${phoneNumber}`)
 })
-const callNormal=(phoneNumber)=>{
-    window.open(`whatsapp://send?phone=${phoneNumber}`)
+
+const phoneCall=(phoneNumber)=>{
+    window.open(`tel:${phoneNumber}`)
 }
 normalCall.addEventListener('click',function(){
     const phoneNumber=this.dataset.phone
