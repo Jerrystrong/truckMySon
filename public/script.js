@@ -44,7 +44,7 @@ const setAminFunction = async(email,name,identifiant)=>{
     }
     try {
         // https://truckmyson.onrender.com
-        const response = await fetch('http://localhost:3003/api/set-admin', {
+        const response = await fetch('https://truckmyson.onrender.com/api/set-admin', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,6 +73,7 @@ const setAminFunction = async(email,name,identifiant)=>{
         return null;
     }
 }
+
 let isPoupopEnseignant=false
 /**
  * 
@@ -123,6 +124,7 @@ const openStutentPoopop=(userInfo)=>{
     poupopSignleStudent.classList.remove('hidden')
     const infoUser=Array.from(userInfo)
     studentName.textContent=`${userInfo[1].Nom} ${userInfo[3].Prenom}`
+    eleveContainer.setAttribute(`data-user`,userInfo[1].Nom)
     waCall.setAttribute('data-phone',userInfo[9].Tel)
     normalCall.setAttribute('data-phone',userInfo[9].Tel)
     infoUser.map((info)=>{

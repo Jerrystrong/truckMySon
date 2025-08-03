@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const classSchema=new mongoose.Schema({
     name:{
@@ -8,6 +8,10 @@ const classSchema=new mongoose.Schema({
     identifiant:{
         type:String,
         require:[true,'identifiant location is required']
+    },
+    classTeacher:{
+        type:Schema.Types.ObjectId,
+        ref:'teacher'
     }
 })
 

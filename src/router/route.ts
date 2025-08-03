@@ -86,10 +86,12 @@ router.get('/',isAuthentified,async(req:Request,res:Response)=>{
     const student=await Student.find({teacherId:req.session.user.teacherId})
     const adStudent=await Student.find({})
     const classes=await Class.find({})
-    setTimeout(()=>{
-        io.emit('essaie',true)
-    },1000)
     res.render('index.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],student:student[student.length-1],students:student,teachers:teacher,adStudent,classes})
+})
+router.get('/classe',isAuthentified,async(req:Request,res:Response)=>{
+    const teacher=await Teacher.find({})
+    const classes=await Class.find({})
+    res.render('class.ejs',{user:req.session.user,teacher:teacher[teacher.length-1],classes})
 })
 router.get('/enseignant',isAuthentified,async(req:Request,res:Response)=>{
     const teachers=await Teacher.find({})
@@ -345,7 +347,12 @@ router.post('/add/teacher',async(req:Request,res:Response)=>{
         try{
             await teacher.save()
             const teachers=await Teacher.find({})
-            res.json({success:true,data:teachers})
+            const teacherCl=await Class.findOne({identifiant:teacher.teacherClasseIdentifiant})
+            if(teacherCl){
+                teacherCl.classTeacher=teacher._id
+                await teacherCl.save()
+                res.json({success:true,data:teachers})
+            }
         }catch(error: unknown){
             if (error instanceof Error) {
                 res.json({success:false,message:error.message})
@@ -394,6 +401,18 @@ router.post('/add-student',async(req:Request,res:Response)=>{
         createStudent();
     }
 
+})
+router.post('/api/deletestudent',async(req:Request,res:Response)=>{
+    const studentName=req.body.studentName
+    try{
+        await Student.deleteOne({studentName:studentName})
+        res.json({success:true,message:'Eleve supprimer avec success'})
+    }catch(error:unknown){
+        if(error instanceof Error){
+            console.log(error.message)
+            res.status(400).json({success:false,message:error.message})
+        }
+    }
 })
 router.get('/get-classes',async (req:Request,res:Response)=>{
     const classes=await Class.find({})
