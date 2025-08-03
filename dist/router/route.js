@@ -102,10 +102,12 @@ router.get('/', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0,
     const student = yield student_model_1.Student.find({ teacherId: req.session.user.teacherId });
     const adStudent = yield student_model_1.Student.find({});
     const classes = yield class_model_1.Class.find({});
-    setTimeout(() => {
-        index_1.io.emit('essaie', true);
-    }, 1000);
     res.render('index.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], student: student[student.length - 1], students: student, teachers: teacher, adStudent, classes });
+}));
+router.get('/classe', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const teacher = yield teacher_model_1.Teacher.find({});
+    const classes = yield class_model_1.Class.find({});
+    res.render('class.ejs', { user: req.session.user, teacher: teacher[teacher.length - 1], classes });
 }));
 router.get('/enseignant', isAuthentified_1.isAuthentified, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const teachers = yield teacher_model_1.Teacher.find({});
@@ -375,7 +377,12 @@ router.post('/add/teacher', (req, res) => __awaiter(void 0, void 0, void 0, func
         try {
             yield teacher.save();
             const teachers = yield teacher_model_1.Teacher.find({});
-            res.json({ success: true, data: teachers });
+            const teacherCl = yield class_model_1.Class.findOne({ identifiant: teacher.teacherClasseIdentifiant });
+            if (teacherCl) {
+                teacherCl.classTeacher = teacher._id;
+                yield teacherCl.save();
+                res.json({ success: true, data: teachers });
+            }
         }
         catch (error) {
             if (error instanceof Error) {
@@ -421,6 +428,19 @@ router.post('/add-student', (req, res) => __awaiter(void 0, void 0, void 0, func
             });
         }
         createStudent();
+    }
+}));
+router.post('/api/deletestudent', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const studentName = req.body.studentName;
+    try {
+        yield student_model_1.Student.deleteOne({ studentName: studentName });
+        res.json({ success: true, message: 'Eleve supprimer avec success' });
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message);
+            res.status(400).json({ success: false, message: error.message });
+        }
     }
 }));
 router.get('/get-classes', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
