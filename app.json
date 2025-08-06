@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "3fe88fef-46d9-4973-8e5c-0c0b843b8aac"
+      }
+    },
+    "android": {
+      "package": "com.jeremiek.truckmyson"
+    }
+  }
+}

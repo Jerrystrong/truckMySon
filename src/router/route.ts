@@ -194,6 +194,7 @@ router.post('/api/login/student',async(req:Request,res:Response)=>{
         }
     }
 })
+// geolocalisation
 router.post('/api/get-student-position',async(req:Request,res:Response)=>{
     const {points}=req.body
     const {token}=req.body
@@ -227,7 +228,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
             const date=new Date()
             if(teacher){
                 const dateString = date.toISOString().split('T')[0];
-                const presenceCheck=await Presence.findOne({dateString})
+                const presenceCheck=await Presence.findOne({studentName:student?.studentName,dateString: dateString })
                 if(presenceCheck){
                     res.json({success:true,distance:distance})
                 }else{

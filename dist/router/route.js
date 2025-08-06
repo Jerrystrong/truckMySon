@@ -218,6 +218,7 @@ router.post('/api/login/student', (req, res) => __awaiter(void 0, void 0, void 0
         }
     }
 }));
+// geolocalisation
 router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { points } = req.body;
     const { token } = req.body;
@@ -251,7 +252,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
             const date = new Date();
             if (teacher) {
                 const dateString = date.toISOString().split('T')[0];
-                const presenceCheck = yield presence_model_1.Presence.findOne({ dateString });
+                const presenceCheck = yield presence_model_1.Presence.findOne({ studentName: student === null || student === void 0 ? void 0 : student.studentName, dateString: dateString });
                 if (presenceCheck) {
                     res.json({ success: true, distance: distance });
                 }
