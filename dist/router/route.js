@@ -240,7 +240,7 @@ router.post('/api/get-student-position', (req, res) => __awaiter(void 0, void 0,
                 index_1.io.emit('onFarAway', {
                     message: `l'élève est éloigné de ${distance}Km de l'école`,
                     noms: `${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`,
-                    parentPhone: (student === null || student === void 0 ? void 0 : student.teacherId) && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
+                    parentPhone: `${student === null || student === void 0 ? void 0 : student.studentPhone}`
                 });
                 if (teacher) {
                     teacher === null || teacher === void 0 ? void 0 : teacher.notification.push([`${student === null || student === void 0 ? void 0 : student.studentName} ${student === null || student === void 0 ? void 0 : student.studentLastname}`, `l'élève est éloigné de ${distance}Km de l'école`, `${new Date().toLocaleDateString()}`, `${student === null || student === void 0 ? void 0 : student.studentPhone}`]);
