@@ -216,7 +216,7 @@ router.post('/api/get-student-position',async(req:Request,res:Response)=>{
                 io.emit('onFarAway',{
                     message: `l'élève est éloigné de ${distance}Km de l'école`,
                     noms: `${student?.studentName} ${student?.studentLastname}`,
-                    parentPhone: student?.teacherId && 'teacherPhone' in student.teacherId ? student.teacherId.teacherPhone : ''
+                    parentPhone: `${student?.studentPhone}`
                 })
                 if(teacher){
                     teacher?.notification.push([`${student?.studentName} ${student?.studentLastname}`,`l'élève est éloigné de ${distance}Km de l'école`,`${new Date().toLocaleDateString()}`,`${student?.studentPhone}`])
